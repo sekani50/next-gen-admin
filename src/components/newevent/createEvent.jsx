@@ -49,7 +49,7 @@ const CreateEvent = () => {
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
-              className="w-full border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
+              className="w-full border py-4 border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
             ></textarea>
           </div>
           <div className="space-y-4 w-full">
@@ -64,7 +64,7 @@ const CreateEvent = () => {
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
-              className="w-full border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
+              className="w-full border py-4 border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
             ></textarea>
           </div>
           <div className="form-group space-y-4 w-full">
