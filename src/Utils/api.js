@@ -9,30 +9,10 @@ export const credentials = (token, payload) => {
   });
 };
 
-//
-export const updateProfile = (token, payload) => {
-  return axios.put(`/profile`, payload, {
+export const createEvent = (payload) => {
+  return axios.post('/events/', payload, {
     headers: {
       Authorization: "Bearer " + token,
-    },
-  });
-};
-
-// /password/change
-export const changePassword = (token, payload) => {
-  return axios.put(`/password/change`, payload, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-};
-
-// /password/forgot
-export const sendMail = (token, payload) => {
-  return axios.post(`/password/forgot`, payload, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-};
-
+    }
+  })
+}

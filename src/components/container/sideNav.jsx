@@ -32,7 +32,7 @@ const SideNav = ({ isNav, setisNav }) => {
         e.stopPropagation();
         setisNav(!isNav);
       }}
-      className={`relative z-[37] inset-y-0 left-0 h-full let swipeInLeft ${
+      className={`absolute top-[3.1rem] sm:top-[4.1rem] z-[37] inset-y-0 left-0 h-full let swipeInLeft ${
         isNav
           ? "w-full bg-black bg-opacity-50 min-[1024px]:w-[250px]"
           : "max-[1024px]:hidden w-[250px] "

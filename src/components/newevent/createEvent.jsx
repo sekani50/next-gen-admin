@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "../container/container";
 import UploadingImage from "../UI/uploadingImage";
+import { toast } from "react-hot-toast";
 const CreateEvent = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -12,6 +13,30 @@ const CreateEvent = () => {
   const [age, setAge] = useState();
   const [uploadImage, setUploadImage] = useState("");
   const [uploadVideo, setUploadVideo] = useState("");
+  const [isVideo, setIsVideo] = useState(false);
+  const [isImage, setIsImage] = useState(false);
+  async function createNewEvent() {
+    const payload = {
+      eventName: name,
+      description: description,
+      categories: category,
+    }
+
+    for (let i in payload) {
+      if (payload[i] === "") {
+        toast(`${i} is required`);
+        return;
+      }
+    }
+
+  }
+
+  function uploadNewImage() {
+
+  }
+  function uploadNewVideo() {
+
+  }
   return (
     <div className="w-full h-full overflow-x-hidden">
       <Container>
@@ -27,6 +52,7 @@ const CreateEvent = () => {
           <div className="text-lg sm:text-xl font-semibold">
             Event: <span className="mr-1 text-[#017297]">SpaceX</span>
           </div>
+          <div className="text-red-600">Please ensure to upload a video and image for the event</div>
           <div className="form-group space-y-4 w-full">
             <label className="block  " htmlFor="name">
               Event Name
@@ -83,7 +109,10 @@ const CreateEvent = () => {
             />
           </div>
           <div className="form-group space-y-4 w-full">
-            <p>Upload Event Cover</p>
+           <div className="flex space-x-6 items-center">
+           <p>Upload Event Cover</p>
+            <button className="text-white bg-[#017297] py-2 px-4 rounded-sm">Upload Image</button>
+           </div>
             <UploadingImage
               setUploadedImage={setUploadImage}
               text={"Upload Image"}
@@ -91,7 +120,10 @@ const CreateEvent = () => {
             />
           </div>
           <div className="form-group space-y-4 w-full">
+            <div className="flex space-x-6 items-center">
             <p>Upload Event Video</p>
+            <button className="text-white bg-[#017297] py-2 px-4 rounded-sm">Upload Video</button>
+            </div>
             <UploadingImage
               setUploadedImage={setUploadVideo}
               text={"Upload Video"}
@@ -99,7 +131,9 @@ const CreateEvent = () => {
             />
           </div>
 
-          <button className="px-6 text-white bg-[#017297] py-2 rounded-sm w-fit">
+          <button
+          onClick={createNewEvent}
+          className="px-6 text-white bg-[#017297] py-2 rounded-sm w-fit">
             Create Event
           </button>
         </div>

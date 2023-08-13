@@ -9,6 +9,7 @@ const UploadingImage = ({ setUploadedImage, text , type}) => {
   const handleUpload = async (e) => {
     if (e.target.files[0]) {
       const files = e.target.files[0];
+      console.log(e.target.files)
       const image = URL.createObjectURL(files);
       setUpload(image);
       setUploadedImage(files);
@@ -31,7 +32,7 @@ const UploadingImage = ({ setUploadedImage, text , type}) => {
 
   return (
     <div className="mb-4 ">
-      <div className="flex justify-between mb-3 items-start w-full">
+      <div className="flex justify-end mb-3 items-end w-full">
         {isEdit && (
           <button
             onClick={editImage}
@@ -43,7 +44,7 @@ const UploadingImage = ({ setUploadedImage, text , type}) => {
       </div>
 
       <label
-        htmlFor="upload"
+        htmlFor={type}
         className="flex items-center overflow-hidden bg-gray-200 justify-center w-full h-[220px] rounded-sm border-dashed border border-gray-200"
       >
         {!upload && (
@@ -61,12 +62,15 @@ const UploadingImage = ({ setUploadedImage, text , type}) => {
         )}
 
         {upload && (
-          <img src={upload} alt="img" className="w-full h-full object-cover" />
+          <div className="w-full h-full">
+              {type === 'video' ? <video controls src={upload} /> : <img src={upload} alt="img" className="w-full h-full object-cover" />}
+          </div>
+       
         )}
         <input
           type="file"
           hidden
-          id="upload"
+          id={type}
           accept={
             type === "video" ? "video/*" : "image/png, image/jpg, image/jpeg"
           }
