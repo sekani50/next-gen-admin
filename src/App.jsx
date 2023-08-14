@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./index.css";
 import { Toaster } from "react-hot-toast";
 import Scrolltotop from "./components/UI/ScrollToTop";
-//import { RequireAuth } from "./Utils/RequireAuth";
+import { RequireAuth } from "./Utils/RequireAuth";
 import {
   Login,
   Landing,
@@ -46,16 +46,54 @@ const App = () => {
           {/*    AUTH PAGE */}
 
       
-          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={<Login />} />
           {/*    LANDING PAGE  */}
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/create-event" element={<CreateEvent />} />
-          <Route exact path="/participants" element={<Participants />} />
-          <Route exact path="/shortlisted" element={<ShortListed />} />
-          <Route exact path="/events" element={<Events />} />
+          
+       
    
       
           {/**Protected routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth link={"/"}>
+               <Landing />
+              </RequireAuth>
+            }
+          />
+           <Route
+            path="/create-event"
+            element={
+              <RequireAuth link={"/"}>
+             <CreateEvent />
+              </RequireAuth>
+            }
+          />
+           <Route
+            path="/participants"
+            element={
+              <RequireAuth link={"/"}>
+              <Participants />
+              </RequireAuth>
+            }
+          />
+           <Route
+            path="/shortlisted"
+            element={
+              <RequireAuth link={"/"}>
+             <ShortListed />
+              </RequireAuth>
+            }
+          />
+           <Route
+            path="/events"
+            element={
+              <RequireAuth link={"/"}>
+              <Events />
+              </RequireAuth>
+            }
+          />
+        
         </Routes>
       </Router>
     </div>

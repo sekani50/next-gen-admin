@@ -1,18 +1,55 @@
 import axios from "./useAxios";
 
 //credentials for verfication
-export const credentials = (token, payload) => {
-  return axios.post("/associate/setup", payload, {
+
+export const createEvent = (token, payload) => {
+  return axios.post("/events/", payload, {
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 };
 
-export const createEvent = (payload) => {
-  return axios.post('/events/', payload, {
+export const videoUpload = (token, payload) => {
+  return axios.post(`/upload-video`, payload, {
     headers: {
       Authorization: "Bearer " + token,
-    }
-  })
-}
+    },
+  });
+};
+
+export const imageUpload = (token, payload) => {
+  return axios.post(`/upload-image`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+
+///events/?page=1
+export const allEvents = (token, page) => {
+  return axios.get(`events/?page=${page}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+
+//
+export const deleteEvent = (token, eventId) => {
+  return axios.delete(`/events/${eventId}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+
+///events/:eventId
+export const updateEvent = (token, eventId, payload) => {
+  return axios.put(`/events/${eventId}`,payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+

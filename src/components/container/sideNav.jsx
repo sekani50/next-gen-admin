@@ -32,7 +32,7 @@ const SideNav = ({ isNav, setisNav }) => {
         e.stopPropagation();
         setisNav(!isNav);
       }}
-      className={`absolute top-[3.1rem] sm:top-[4.1rem] z-[37] inset-y-0 left-0 h-full let swipeInLeft ${
+      className={`fixed top-[3.1rem] sm:top-[4.1rem] z-[37] inset-y-0 left-0 h-full let swipeInLeft ${
         isNav
           ? "w-full bg-black bg-opacity-50 min-[1024px]:w-[250px]"
           : "max-[1024px]:hidden w-[250px] "
@@ -46,9 +46,9 @@ const SideNav = ({ isNav, setisNav }) => {
       >
         <div className="my-1 justify-center  flex flex-col w-full ">
           <Link
-            to="/"
+            to="/dashboard"
             className={` flex space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4 ${
-              pathname === "/"
+              pathname.includes('dashboard')
                 ? "text-black border-r-2 bg-gray-50 border-[#017297]"
                 : "text-gray-400"
             } `}

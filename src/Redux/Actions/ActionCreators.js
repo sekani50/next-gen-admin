@@ -22,7 +22,6 @@ const logout = () => {
   };
 };
 
-
 const getUser = (token) => {
   return axios.get("/profile", {
     headers: {
@@ -31,29 +30,19 @@ const getUser = (token) => {
   });
 };
 
-
-
 const LoginAction = (loginParams, navigate, setLoading) => {
   return async (dispatch) => {
     setLoading(true);
     await axios
-      .post("/login", loginParams)
+      .post("/auth/login", loginParams)
       .then(async (res) => {
         console.log(res.data);
-        navigate("/dashboard");
-        const { token } = res.data;
-        dispatch(loginSuccess(token));
 
-        await getUser(token)
-          .then((res) => {
-            console.log(res.data);
-            dispatch(GetUsersSuccess(res.data));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-       
-        console.log(token);
+        const { accessToken, user } = res.data.data;
+        dispatch(loginSuccess(accessToken.token));
+        dispatch(GetUsersSuccess(user));
+        navigate("/dashboard");
+
         //console.log(admin);
         // navigate("/dashboard");
         setLoading(false);
@@ -68,15 +57,15 @@ const LoginAction = (loginParams, navigate, setLoading) => {
         ) {
           toast.error("Network Error");
         }
-        const {error:err} = error.response.data
-        if(err) {
-          toast.error(err.message)
+        const { error: err } = error.response.data;
+        if (err) {
+          toast.error(err.message);
         }
         const { message } = error.response.data.error;
         if (message) {
           toast.error(message);
         }
-        const { message: mm } = error.response.data.response;
+        const { message: mm } = error.response.data;
         if (mm) {
           toast.error(mm);
         }
@@ -112,9 +101,9 @@ const registration = (registrationParams, navigate, setLoading) => {
           toast.error("Network Error");
         }
         console.log(error.response.data);
-        const {error:err} = error.response.data
-        if(err) {
-          toast.error(Object.values(err))
+        const { error: err } = error.response.data;
+        if (err) {
+          toast.error(Object.values(err));
         }
         const { message } = error.response.data.error;
         if (message) {
@@ -130,10 +119,4 @@ const registration = (registrationParams, navigate, setLoading) => {
   };
 };
 
-export {
-  LoginAction,
-  registration,
-  loginSuccess,
-  logout,
-  
-};
+export { LoginAction, registration, loginSuccess, logout };

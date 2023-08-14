@@ -9,7 +9,7 @@ const Container = ({ children }) => {
   const navigate = useNavigate()
   return (
     <>
-       <div className="bg-[#051534] w-full flex justify-between items-center px-4 sm:px-10 py-2">
+       <div className="bg-[#051534] w-full flex justify-between items-center fixed inset-x-0 top-0 px-4 sm:px-10 py-2">
         <div
           onClick={() => {
             navigate("/");
@@ -32,7 +32,7 @@ const Container = ({ children }) => {
           </p>
         </div>
       </div>
-    <div className="w-full h-full pb-[50px]  bg-white text-zinc-700">
+    <div className="w-full h-full pt-[56px] sm:pt-[80px] pb-[50px]  bg-white text-zinc-700">
       <TopNav isNav={isNav} setisNav={setisNav} />
 
       <div className="right min-[1010px]:float-right bg-white h-fit ">

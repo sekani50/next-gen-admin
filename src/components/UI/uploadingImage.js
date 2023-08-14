@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { BsCameraVideoFill, BsImage } from "react-icons/bs";
 
-const UploadingImage = ({ setUploadedImage, text , type}) => {
-  const [upload, setUpload] = useState("");
+const UploadingImage = ({ setUploadedImage, upload, setUpload, text , type}) => {
+
   const [isEdit, setEdit] = useState(false);
 
   const handleUpload = async (e) => {

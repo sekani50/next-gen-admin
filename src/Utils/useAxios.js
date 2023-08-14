@@ -2,7 +2,7 @@ import axios from "axios";
 
 const FetchClient = () => {
   const defaultOptions = {
-    baseURL: 'https://amazon-tracker-869bb35ecdc6.herokuapp.com',
+    baseURL: 'https://the-next-gen-show.onrender.com/api',
   };
 
   // Create instance
