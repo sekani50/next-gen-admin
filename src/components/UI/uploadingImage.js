@@ -2,14 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { BsCameraVideoFill, BsImage } from "react-icons/bs";
 
-const UploadingImage = ({ setUploadedImage, upload, setUpload, text , type}) => {
-
+const UploadingImage = ({
+  setUploadedImage,
+  upload,
+  setUpload,
+  text,
+  type,
+}) => {
   const [isEdit, setEdit] = useState(false);
 
   const handleUpload = async (e) => {
     if (e.target.files[0]) {
       const files = e.target.files[0];
-      console.log(e.target.files)
+      console.log(e.target.files);
       const image = URL.createObjectURL(files);
       setUpload(image);
       setUploadedImage(files);
@@ -63,9 +68,20 @@ const UploadingImage = ({ setUploadedImage, upload, setUpload, text , type}) => 
 
         {upload && (
           <div className="w-full h-full">
-              {type === 'video' ? <video controls src={upload} /> : <img src={upload} alt="img" className="w-full h-full object-cover" />}
+            {type === "video" ? (
+              <video
+                controls
+                src={upload}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src={upload}
+                alt="img"
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
-       
         )}
         <input
           type="file"

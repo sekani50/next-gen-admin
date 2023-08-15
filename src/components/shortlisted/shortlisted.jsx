@@ -9,7 +9,7 @@ const ShortListed = () => {
         <Container>
                <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
 
-               <div className="w-full flex mb-2 justify-between items-center ">
+               <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>

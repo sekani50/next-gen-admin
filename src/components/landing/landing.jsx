@@ -7,23 +7,63 @@ import Inventories from "../composables/inventories";
 import { IoMdSearch } from "react-icons/io";
 import { BsArrowDownShort } from "react-icons/bs";
 import RecordWidget from "../record/recordWidget";
+import { useEffect } from "react";
+import { getStat, allParticipants } from "../../Utils/api";
+import { useSelector } from "react-redux";
 
 const Landing = () => {
   const navigate = useNavigate();
+  const {token} = useSelector((state) => state.user)
+  const [data, setdata] = useState(null)
+  const [loading, setloading] = useState(false)
+  useEffect(() => {
+    async function getStatistics() {
+    
+        await getStat(token)
+        .then((res) => {
+          console.log(res)
+          setdata(res.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    
+        
+    }
+    getStatistics()
+
+
+  },[])
+
+  useEffect(() => {
+    async function getPart() {
+      setloading(true)
+      await allParticipants(token)
+        .then((res) => {
+          console.log(res)
+          setloading(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setloading(false)
+        })
+    }
+    getPart()
+  },[])
 
   return (
     <Container>
       <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
         <div className="grid w-full items-center mb-4 sm:mb-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <Inventories title={"Total Events"} subtitle={"15 events"} />
+          <Inventories title={"Total Events"} subtitle={`${data?.events || '0'} events`} />
           <Inventories
             title={"Total Participants"}
-            subtitle={"15 particpants"}
+            subtitle={`${data?.participants || '0'} particpants`}
           />
-          <Inventories title={"Total Categories"} subtitle={"15 Categories"} />
+          <Inventories title={"Total Categories"} subtitle={`${data?.categories || '0'} Categories`} />
         </div>
 
-        <div className="w-full flex mb-2 justify-between items-center ">
+        <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>

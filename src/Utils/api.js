@@ -26,6 +26,14 @@ export const imageUpload = (token, payload) => {
   });
 };
 
+export const getStat = (token) => {
+  return axios.get('/admin/dashboard-stats', {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}
+
 ///events/?page=1
 export const allEvents = (token, page) => {
   return axios.get(`events/?page=${page}`, {
@@ -53,3 +61,20 @@ export const updateEvent = (token, eventId, payload) => {
   });
 };
 
+////user/participants
+export const allParticipants =(token) => {
+  return axios.get(`/user/participants`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}
+
+///events/:eventID/participants?page=1
+export const eventParticipants =(token,eventId, page) => {
+  return axios.get(`/events/${eventId}/participants?page=${page}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}

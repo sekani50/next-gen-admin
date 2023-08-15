@@ -71,7 +71,7 @@ const SideNav = ({ isNav, setisNav }) => {
 
           <Link
             to="/participants"
-            className={` flex space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4  ${
+            className={` hidden space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4  ${
               pathname.includes("participants")
                 ? "text-black border-r-2 bg-gray-50 border-[#017297]"
                 : "text-gray-400"
@@ -83,7 +83,7 @@ const SideNav = ({ isNav, setisNav }) => {
 
           <Link
             to="/shortlisted"
-            className={` flex space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4 ${
+            className={` hidden space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4 ${
               pathname.includes("shortlisted")
                 ? "text-black border-r-2 bg-gray-50 border-[#017297]"
                 : "text-gray-400"

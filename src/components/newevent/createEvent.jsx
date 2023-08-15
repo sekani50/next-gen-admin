@@ -33,18 +33,57 @@ const CreateEvent = () => {
   const [imageloading, setiloading] = useState(false);
   const [eventCover, setCover] = useState(state?.data?.coverImage || null);
   const [eventVideo, setVideo] = useState(state?.data?.video || null);
-
-
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
 
   //console.log(state?.data)
 
   async function createNewEvent() {
+    let eventCover;
+    let eventVideo;
+    setloading(true);
+    const formdatas = new FormData();
+    formdatas.append("image", uploadImage);
+    setiloading(true);
+    await imageUpload(token, formdatas)
+      .then((res) => {
+        console.log(res);
+        //setIsImage(true);
+        setiloading(false);
+        eventCover = res.data.data;
+        toast.success("Image successfully uploaded");
+      })
+      .catch((err) => {
+        console.log(err);
+        setiloading(false);
+        toast.error("Image not uploaded");
+      });
+
+    const formdata = new FormData();
+    formdata.append("video", uploadVideo);
+    setvloading(true);
+    await videoUpload(token, formdata)
+      .then((res) => {
+        console.log(res);
+        // setIsVideo(true);
+        setvloading(false);
+        eventVideo = res.data.data;
+        toast.success("Video successfully uploaded");
+      })
+      .catch((err) => {
+        console.log(err);
+        setvloading(false);
+        toast.error("Video not uploaded");
+      });
+
     const payload = {
       eventName: name,
       description: description,
       categories: category,
       eventCover,
       eventVideo,
+      contestStart: start,
+      contestEnd: end,
     };
 
     for (let i in payload) {
@@ -54,74 +93,66 @@ const CreateEvent = () => {
       }
     }
 
-   
-    setloading(true);
-
     if (state?.data?.id) {
-      await updateEvent(token, state?.data?.id, payload)
-        .then((res) => {
-          console.log(res);
-          toast.success("Event updated successfully");
-          setloading(false);
-          navigate("/events")
-        })
-        .catch((err) => {
-          console.log(err);
-          setloading(false);
-          toast.error("Event update not successful");
-        });
+      {
+        eventCover &&
+          eventVideo &&
+          (await updateEvent(token, state?.data?.id, payload)
+            .then((res) => {
+              console.log(res);
+              toast.success("Event updated successfully");
+              setloading(false);
+              navigate("/events");
+            })
+            .catch((error) => {
+              console.log(error);
+              setloading(false);
+              const { error: err } = error.response.data;
+              if (err) {
+                toast.error(err.message);
+              }
+              const { message } = error.response.data.error;
+              if (message) {
+                toast.error(message);
+              }
+              const { message: mm } = error.response.data;
+              if (mm) {
+                toast.error(mm);
+              }
+            }));
+      }
     } else {
-      await createEvent(token, payload)
-        .then((res) => {
-          console.log(res);
-          toast.success("Event created successfully");
-          setloading(false);
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-          setloading(false);
-          toast.error("Event creation not successful");
-        });
+      {
+        eventCover &&
+          eventVideo &&
+          (await createEvent(token, payload)
+            .then((res) => {
+              console.log(res);
+              toast.success("Event created successfully");
+              setloading(false);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+              setloading(false);
+              const { error: err } = error.response.data;
+              if (err) {
+                toast.error(err.message);
+              }
+              const { message } = error.response.data.error;
+              if (message) {
+                toast.error(message);
+              }
+              const { message: mm } = error.response.data;
+              if (mm) {
+                toast.error(mm);
+              }
+            }));
+      }
     }
   }
 
-  async function uploadNewImage() {
-    const formdata = new FormData();
-    formdata.append("image", uploadImage);
-    setiloading(true);
-    await imageUpload(token, formdata)
-      .then((res) => {
-        console.log(res);
-        //setIsImage(true);
-        setiloading(false);
-        setCover(res.data.data);
-        toast.success("Image successfully uploaded");
-      })
-      .catch((err) => {
-        console.log(err);
-        setiloading(false);
-        toast.error("Image not uploaded");
-      });
-  }
-  async function uploadNewVideo() {
-    const formdata = new FormData();
-    formdata.append("video", uploadVideo);
-    setvloading(true);
-    await videoUpload(token, formdata)
-      .then((res) => {
-        console.log(res);
-        // setIsVideo(true);
-        setvloading(false);
-        setVideo(res.data.data);
-        toast.success("Video successfully uploaded");
-      })
-      .catch((err) => {
-        console.log(err);
-        setvloading(false);
-        toast.error("Video not uploaded");
-      });
-  }
+
   return (
     <div className="w-full h-full overflow-x-hidden">
       <Container>
@@ -181,20 +212,42 @@ const CreateEvent = () => {
             ></textarea>
           </div>
 
+          <div className="w-full flex items-center justify-center space-x-3">
+            <div className="form-group space-y-4 w-full">
+              <label className="block  " htmlFor="date">
+                Event Start Date
+              </label>
+              <input
+                className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
+                type="date"
+                placeholder=""
+                name="date"
+                value={start}
+                onChange={(e) => {
+                  setStart(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group space-y-4 w-full">
+              <label className="block  " htmlFor="date">
+                Event End Date
+              </label>
+              <input
+                className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
+                type="date"
+                placeholder=""
+                name="date"
+                value={end}
+                onChange={(e) => {
+                  setEnd(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
           <div className="form-group space-y-4 w-full">
             <div className="flex space-x-6 items-center">
               <p>Upload Event Cover</p>
-              <button
-                onClick={uploadNewImage}
-                className="text-white bg-[#017297] w-[120px] flex items-center justify-center h-[44px] rounded-sm"
-              >
-                {" "}
-                {imageloading ? (
-                  <LoaderIcon className="text-[22px] animate-spin" />
-                ) : (
-                  " Upload Image"
-                )}
-              </button>
             </div>
             <UploadingImage
               setUploadedImage={setUploadImage}
@@ -207,16 +260,6 @@ const CreateEvent = () => {
           <div className="form-group space-y-4 w-full">
             <div className="flex space-x-6 items-center">
               <p>Upload Event Video</p>
-              <button
-                onClick={uploadNewVideo}
-                className="text-white bg-[#017297] w-[120px]  flex items-center justify-center h-[44px] rounded-sm"
-              >
-                {videoloading ? (
-                  <LoaderIcon className="text-[22px] animate-spin" />
-                ) : (
-                  " Upload Video"
-                )}
-              </button>
             </div>
             <UploadingImage
               setUploadedImage={setUploadVideo}

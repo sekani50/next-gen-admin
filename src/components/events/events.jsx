@@ -46,7 +46,7 @@ const Events = () => {
   return (
     <Container>
       <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
-        <div className="w-full flex mb-2 justify-between items-center ">
+        <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>
@@ -136,7 +136,11 @@ const Events = () => {
         </div>
         <div className="flex w-full my-3 justify-between items-center">
           {currentPage > 1 ? (
-            <button className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+            <button
+            onClick={() => {
+              setPage(page -1)
+            }}
+            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
               Previous
             </button>
           ) : (
@@ -146,7 +150,11 @@ const Events = () => {
           {currentPage === totalItems ? (
             <div className="w-1 h-1"></div>
           ) : (
-            <button className="bg-[#017297] text-white rounded-lg px-4 py-2">
+            <button
+            onClick={() => {
+              setPage(page+1)
+            }}
+             className="bg-[#017297] text-white rounded-lg px-4 py-2">
               Next
             </button>
           )}

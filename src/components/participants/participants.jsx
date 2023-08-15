@@ -1,15 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '../container/container';
 import { IoMdSearch } from "react-icons/io";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoFilterSharp } from "react-icons/io5";
+import user from "../../assets/png/customerpic.png"
 import RecordWidget from '../record/recordWidget';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { eventParticipants } from '../../Utils/api';
+import { useSelector } from 'react-redux';
+import { LoaderIcon } from 'lucide-react';
+import empty from "../../assets/png/customerpic.png"
 const Participants = () => {
+  const {id} = useParams()
+  const {token} = useSelector((state) => state.user)
+  const [page, setPage] = useState(0)
+  const [totalItems,setTotalItems] = useState(0)
+  const [loading, setloading] = useState(false)
+  const [data, setdata] = useState([])
+const [currentPage, setcurrentPage] = useState(0)
+  useEffect(() => {
+    async function regParticipant() {
+      setloading(true)
+      await eventParticipants(token, id, page)
+      .then((res) => {
+        console.log(res)
+        setloading(false);
+        const { data, paging } = res.data;
+
+        setdata(data);
+        const totalPage = Math.ceil(paging?.totalItems / 10);
+        console.log(totalPage);
+        setcurrentPage(paging?.currentPage);
+        
+        setTotalItems(totalPage);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+    regParticipant()
+  },[page])
     return (
         <Container>
                <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
 
-               <div className="w-full flex mb-2 justify-between items-center ">
+               <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>
@@ -49,11 +85,32 @@ const Participants = () => {
 
               <p className="w-1 h-1 "></p>
             </div>
-
-           {[1,2,3].map((i,j) => {
+            {loading && (
+              <div className="w-full items-center justify-center flex h-[300px]">
+                <div className="justify-center flex w-fit h-fit items-center">
+                  <LoaderIcon className="w-10 animate-spin text-[#005ABC]" />
+                </div>
+              </div>
+            )}
+            {!loading && data?.length === 0 && (
+              <div className="w-full h-[300px] flex justify-center items-center">
+                <span className="w-[200px] h-[200px]">
+                  <img className="w-full h-full" src={empty} alt="" />
+                </span>
+              </div>
+            )}
+           {data?.map(({participant, category},j) => {
             return (
               <div key={j}>
-              <RecordWidget/>
+              <RecordWidget
+              id={participant?._id}
+              email={participant?.email}
+              name={`${participant.firstName} ${participant.lastName}`}
+              image={participant?.image?.url || user}
+              status={participant?.status || ''}
+              category={category || ''}
+              eventName={participant?.eventName || ''}
+              />
               </div>
             )
            })}
@@ -62,9 +119,29 @@ const Participants = () => {
           </div>
         </div>
         <div className="flex w-full my-3 justify-between items-center">
-            <button className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">Previous</button>
-            <p>{`page 1 of 10`}</p>
-            <button className="bg-[#017297] text-white rounded-lg px-4 py-2">Next</button>
+          {currentPage > 1 ? (
+            <button
+            onClick={() => {
+              setPage(page -1)
+            }}
+            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+              Previous
+            </button>
+          ) : (
+            <div className="w-1 h-1"></div>
+          )}
+          <p>{`page ${currentPage} of ${totalItems}`}</p>
+          {currentPage === totalItems ? (
+            <div className="w-1 h-1"></div>
+          ) : (
+            <button
+            onClick={() => {
+              setPage(page+1)
+            }}
+            className="bg-[#017297] text-white rounded-lg px-4 py-2">
+              Next
+            </button>
+          )}
         </div>
                </div>
             

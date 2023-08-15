@@ -70,7 +70,7 @@ const App = () => {
             }
           />
            <Route
-            path="/participants"
+            path="/participants/:id"
             element={
               <RequireAuth link={"/"}>
               <Participants />

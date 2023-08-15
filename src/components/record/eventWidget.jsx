@@ -55,7 +55,7 @@ const EventWidget = ({ name, image, id, data }) => {
         <div className="text-green-600">Shortlisted</div>
         <div
           onClick={() => {
-            navigate(`/${id}`);
+            navigate(`/participants/${id}`);
           }}
           className="cursor-pointer text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2"
         >
@@ -63,7 +63,7 @@ const EventWidget = ({ name, image, id, data }) => {
         </div>
         <div
           onClick={() => {
-            navigate(`/${id}`);
+            navigate(`/participants/${id}`);
           }}
           className="cursor-pointer text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2"
         >

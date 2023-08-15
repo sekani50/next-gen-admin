@@ -3,7 +3,7 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import austin from "../../assets/png/austin.png";
 import { FiEdit2 } from "react-icons/fi";
 import { useState } from "react";
-const RecordWidget = () => {
+const RecordWidget = ({id, image, status, category,email, eventName, name}) => {
   const [isdelete, setdelete] = useState(false);
 
   function deleteUser() {
@@ -14,16 +14,16 @@ const RecordWidget = () => {
       <div className="grid grid-cols-7  gap-6 border-b w-full items-center py-3 px-4">
         <div className="col-span-2 gap-8 w-full items-center grid grid-cols-6">
           <div className="w-[40px] h-[40px] rounded-full">
-            <img src={austin} alt="" className="w-full h-full rounded-full" />
+            <img src={image} alt="" className="w-full h-full rounded-full" />
           </div>
           <div className="col-span-5">
-            <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden">John Doe</div>
-            <div className="text-gray-500 text-ellipsis whitespace-nowrap w-full overflow-hidden">johndoe@gmail.com</div>
+            <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden">{name}</div>
+            <div className="text-gray-500 text-ellipsis whitespace-nowrap w-full overflow-hidden">{email}</div>
           </div>
         </div>
-        <div>StageX</div>
-        <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2">Afrobeat Male</div>
-        <div className="text-green-600">Shortlisted</div>
+        <div>{eventName}</div>
+        <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2">{category}</div>
+        <div className="text-green-600">{status}</div>
         <div className=" flex items-center space-x-2">
           <div
           
