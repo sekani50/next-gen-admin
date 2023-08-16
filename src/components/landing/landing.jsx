@@ -1,7 +1,7 @@
 import React from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import Container from "../container/container";
 import Inventories from "../composables/inventories";
 import { IoMdSearch } from "react-icons/io";
@@ -10,12 +10,17 @@ import RecordWidget from "../record/recordWidget";
 import { useEffect } from "react";
 import { getStat, allParticipants } from "../../Utils/api";
 import { useSelector } from "react-redux";
-
+import { LoaderIcon } from "lucide-react";
+import empty from '../../assets/png/emptyorder.png'
 const Landing = () => {
-  const navigate = useNavigate();
-  const {token} = useSelector((state) => state.user)
+ // const navigate = useNavigate();
+  const {token, currentUser} = useSelector((state) => state.user)
   const [data, setdata] = useState(null)
-  const [loading, setloading] = useState(false)
+  const [pdata, setpdata] = useState([])
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setloading] = useState(false);
+  const [currentPage, setcurrentPage] = useState(0);
+  const [page, setPage] = useState(1);
   useEffect(() => {
     async function getStatistics() {
     
@@ -42,6 +47,13 @@ const Landing = () => {
         .then((res) => {
           console.log(res)
           setloading(false)
+          const {data} = res.data
+          setpdata(data.data)
+          const totalPage = Math.ceil(data?.paging?.totalItems / 10);
+          console.log(totalPage);
+          setcurrentPage(data?.paging?.currentPage);
+       
+          setTotalItems(totalPage);
         })
         .catch((err) => {
           console.log(err)
@@ -103,22 +115,62 @@ const Landing = () => {
 
               <p className="w-1 h-1 "></p>
             </div>
-
-           {[1,2,3].map((i,j) => {
+            {loading && (
+              <div className="w-full items-center justify-center flex h-[300px]">
+                <div className="justify-center flex w-fit h-fit items-center">
+                  <LoaderIcon className="w-10 animate-spin text-[#005ABC]" />
+                </div>
+              </div>
+            )}
+            {!loading && pdata?.length === 0 && (
+              <div className="w-full h-[300px] flex justify-center items-center">
+                <span className="w-[200px] h-[200px]">
+                  <img className="w-full h-full" src={empty} alt="" />
+                </span>
+              </div>
+            )}
+           {!loading && pdata?.length > 0 && pdata.map(({category, participant, event, status},j) => {
             return (
               <div key={j}>
-              <RecordWidget/>
+              <RecordWidget
+              name={`${participant?.firstName} ${participant?.lastName}`}
+              image={participant?.profileImage?.url}
+              email={participant?.email}
+              event={event?.eventName}
+              eventId={event?._id}
+              status={status}
+              category={category}
+              id={participant?._id}
+              />
               </div>
             )
-           })}
-
-           
+           })}           
           </div>
         </div>
         <div className="flex w-full my-3 justify-between items-center">
-            <button className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">Previous</button>
-            <p>{`page 1 of 10`}</p>
-            <button className="bg-[#017297] text-white rounded-lg px-4 py-2">Next</button>
+        {currentPage > 1 ? (
+            <button
+            onClick={() => {
+              setPage(page -1)
+            }}
+            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+              Previous
+            </button>
+          ) : (
+            <div className="w-1 h-1"></div>
+          )}
+          <p>{`page ${currentPage} of ${totalItems}`}</p>
+          {currentPage === totalItems ? (
+            <div className="w-1 h-1"></div>
+          ) : (
+            <button
+            onClick={() => {
+              setPage(page+1)
+            }}
+             className="bg-[#017297] text-white rounded-lg px-4 py-2">
+              Next
+            </button>
+          )}
         </div>
       </div>
     </Container>

@@ -10,6 +10,7 @@ import {
   ShortListed,
   Participants,
   Events,
+  SingleParticipant,
  
 } from "./Pages";
 
@@ -90,6 +91,14 @@ const App = () => {
             element={
               <RequireAuth link={"/"}>
               <Events />
+              </RequireAuth>
+            }
+          />
+            <Route
+            path="/event/participant/:id"
+            element={
+              <RequireAuth link={"/"}>
+              <SingleParticipant />
               </RequireAuth>
             }
           />

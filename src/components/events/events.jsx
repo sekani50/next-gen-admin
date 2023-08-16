@@ -24,16 +24,16 @@ const Events = () => {
         .then((res) => {
           console.log(res);
           setloading(false);
-          const { data, paging } = res.data;
+          const { data } = res.data;
 
-          setdata(data);
-          const totalPage = Math.ceil(paging?.totalItems / 10);
+          setdata(data.data);
+          const totalPage = Math.ceil(data?.paging?.totalItems / 10);
           console.log(totalPage);
-          setcurrentPage(paging?.currentPage);
+          setcurrentPage(data?.paging?.currentPage);
           //  const pageNumbers = [...Array(totalPage).keys()].map(
           //    (page) => page + 1
           //  );
-
+          
           setTotalItems(totalPage);
         })
         .catch((err) => {

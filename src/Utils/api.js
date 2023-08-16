@@ -63,16 +63,25 @@ export const updateEvent = (token, eventId, payload) => {
 
 ////user/participants
 export const allParticipants =(token) => {
-  return axios.get(`/user/participants`, {
+  return axios.get(`/events/participants`, {
     headers: {
       Authorization: "Bearer " + token,
     },
   })
 }
 
-///events/:eventID/participants?page=1
+///events/:eventID/participants?page=1 
 export const eventParticipants =(token,eventId, page) => {
   return axios.get(`/events/${eventId}/participants?page=${page}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}
+
+////user/participants/:userId 
+export const singleParticipant = (token,eventId, userId) => {
+  return axios.get(`/events/${eventId}/participants/${userId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },

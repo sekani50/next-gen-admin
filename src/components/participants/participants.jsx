@@ -24,14 +24,14 @@ const [currentPage, setcurrentPage] = useState(0)
       setloading(true)
       await eventParticipants(token, id, page)
       .then((res) => {
-        console.log(res)
+        console.log(res.data.data)
         setloading(false);
-        const { data, paging } = res.data;
+        const { data} = res.data;
 
-        setdata(data);
-        const totalPage = Math.ceil(paging?.totalItems / 10);
+        setdata(data.data);
+        const totalPage = Math.ceil(data?.paging?.totalItems / 10);
         console.log(totalPage);
-        setcurrentPage(paging?.currentPage);
+        setcurrentPage(data?.paging?.currentPage);
         
         setTotalItems(totalPage);
       })
@@ -99,17 +99,18 @@ const [currentPage, setcurrentPage] = useState(0)
                 </span>
               </div>
             )}
-           {data?.map(({participant, category},j) => {
+           {data?.map(({participant,event, status,category },j) => {
             return (
               <div key={j}>
               <RecordWidget
               id={participant?._id}
               email={participant?.email}
-              name={`${participant.firstName} ${participant.lastName}`}
-              image={participant?.image?.url || user}
-              status={participant?.status || ''}
+              name={`${participant?.firstName} ${participant?.lastName}`}
+              image={participant?.profileImage?.url || user}
+              status={status || ''}
               category={category || ''}
-              eventName={participant?.eventName || ''}
+              event={event?.eventName || ''}
+              eventId={event?._id}
               />
               </div>
             )
