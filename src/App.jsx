@@ -79,7 +79,7 @@ const App = () => {
             }
           />
            <Route
-            path="/shortlisted"
+            path="/shortlisted/:id"
             element={
               <RequireAuth link={"/"}>
              <ShortListed />

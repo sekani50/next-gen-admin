@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { eventParticipants } from '../../Utils/api';
 import { useSelector } from 'react-redux';
 import { LoaderIcon } from 'lucide-react';
-import empty from "../../assets/png/customerpic.png"
+import empty from "../../assets/png/emptyorder.png"
 const Participants = () => {
   const {id} = useParams()
   const {token} = useSelector((state) => state.user)

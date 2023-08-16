@@ -1,9 +1,10 @@
 import React from "react";
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { FiEdit2 } from "react-icons/fi";
 import user from "../../assets/png/customerpic.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "../../Utils/useAxios"
+import { LoaderIcon, toast } from "react-hot-toast";
 const RecordWidget = ({
   id,
   eventId,
@@ -15,6 +16,47 @@ const RecordWidget = ({
   name,
 }) => {
   const navigate = useNavigate();
+  const {token} = useSelector((state) => state.user)
+  const [loading, setloading] = useState(false)
+  const [statuss, setStatus] = useState(status)
+
+  async function toggleStatus() {
+    setloading(true)
+    await axios.patch(`/events/${eventId}/shortlist/${id}`, null,{
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+    .then((res) => {
+      console.log(res)
+      setloading(false)
+      const {data} = res.data
+      setStatus(data?.status)
+      toast.success('Status updated')
+    })
+    .catch((error) => {
+      console.log(error)
+      setloading(false)
+      if (
+        error.message === "Network Error" ||
+        error.message === "timeout exceeded"
+      ) {
+        toast.error("Network Error");
+      }
+      const { error: err } = error.response.data;
+      if (err) {
+        toast.error(err.message);
+      }
+      const { message } = error.response.data.error;
+      if (message) {
+        toast.error(message);
+      }
+      const { message: mm } = error.response.data;
+      if (mm) {
+        toast.error(mm);
+      }
+    })
+  }
 
   return (
     <>
@@ -40,7 +82,30 @@ const RecordWidget = ({
         <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2">
           {category}
         </div>
-        <div className="text-green-600">{status}</div>
+        <button
+        disabled={loading}
+        onClick={toggleStatus}
+        className="cursor-pointer">
+        {loading && <div
+          className={`flex items-center justify-center w-[100px] h-[33px] ${
+            statuss === "Joined"
+              ? "text-red-700 bg-red-200 p-1 rounded-sm"
+              : "text-green-700 bg-green-200 rounded-sm p-1"
+          }`}
+        >
+          <LoaderIcon className="text-[25px] animate-spin"/>
+        </div>}
+       {!loading && <div
+          className={`flex items-center justify-center w-[100px] h-[33px] ${
+            statuss === "Joined"
+              ? "text-red-700 bg-red-200 p-1 rounded-sm"
+              : "text-green-700 bg-green-200 rounded-sm p-1"
+          }`}
+        >
+          {statuss}
+        </div>}
+        </button>
+       
         <div
           onClick={() => {
             navigate(`/event/participant/${id}`, {
