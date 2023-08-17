@@ -14,6 +14,7 @@ const RecordWidget = ({
   email,
   event,
   name,
+  votes
 }) => {
   const navigate = useNavigate();
   const {token} = useSelector((state) => state.user)
@@ -60,7 +61,7 @@ const RecordWidget = ({
 
   return (
     <>
-      <div className="grid grid-cols-7  gap-6 border-b w-full items-center py-3 px-4">
+      <div className="grid grid-cols-8  gap-6 border-b w-full items-center py-3 px-4">
         <div className="col-span-2 gap-8 w-full items-center grid grid-cols-6">
           <div className="w-[40px] h-[40px] rounded-full">
             <img
@@ -82,6 +83,7 @@ const RecordWidget = ({
         <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2">
           {category}
         </div>
+        <div>{votes}</div>
         <button
         disabled={loading}
         onClick={toggleStatus}

@@ -64,7 +64,7 @@ const ShortListed = () => {
 
         <div className="dashboard-scroll-style w-full h-fit overflow-y-hidden overflow-x-auto py-2">
           <div className="min-w-[1000px] w-full  rounded-lg shadow-lg py-4">
-            <div className="grid grid-cols-7 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
+            <div className="grid grid-cols-8 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
               <div className="flex pl-3 col-span-2 items-center space-x-2">
                 <p className="">Participants</p>
                 <BsArrowDownShort className="text-[22px]" />
@@ -75,6 +75,10 @@ const ShortListed = () => {
               </div>
               <div className="flex col-span-2 items-center space-x-2">
                 <p className="">Category</p>
+                <BsArrowDownShort className="text-[22px]" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <p className="">Votes</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
               <div className="flex items-center space-x-2">
@@ -107,6 +111,7 @@ const ShortListed = () => {
                 name={`${participant?.firstName} ${participant?.lastName}`}
                 image={participant?.profileImage?.url || user}
                 status={status || ''}
+                votes={participant?.votes || '0'}
                 category={category || ''}
                 event={event?.eventName || ''}
                 eventId={event?._id}
