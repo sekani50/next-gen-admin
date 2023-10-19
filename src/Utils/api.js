@@ -138,3 +138,11 @@ export function getTalents(token) {
   });
 }
 
+export function createTalent(token, payload) {
+  return axios.post(`/talents/`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}
+

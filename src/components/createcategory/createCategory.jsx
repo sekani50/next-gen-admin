@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MdClose, MdNavigateBefore } from "react-icons/md";
+import { MdNavigateBefore } from "react-icons/md";
 import {
   createCategory,
   getCountries,
@@ -73,6 +73,7 @@ export default function CreateCategory({ close }) {
       .then((res) => {
         console.log(res);
         setloading(false);
+        window.location.reload()
         toast.success("categories created successfully");
       })
       .catch((err) => {
@@ -93,14 +94,14 @@ export default function CreateCategory({ close }) {
         <h2 className="font-semibold text-lg sm:text-xl">Add Category</h2>
       </div>
       <div className="form-group space-y-4 mb-3 sm:mb-4 w-full">
-        <label className="block font-semibold " htmlFor="email">
+        <label className="block font-semibold " htmlFor="name">
           Name
         </label>
         <input
           className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
-          type="email"
-          placeholder="name@company.com"
-          name="email"
+          type="name"
+          placeholder="artsits"
+          name="name"
           value={category.name}
           onChange={(e) => {
             setCategory({ ...category, name: e.target.value });

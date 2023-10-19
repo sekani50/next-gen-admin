@@ -3,13 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { BiLogOutCircle } from "react-icons/bi";
 import {TbCategory2} from 'react-icons/tb'
 //import profile from "../../assets/png/hijaby.jpg";
-
+import {GiMusicSpell} from 'react-icons/gi'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoIosPeople, IoIosListBox } from "react-icons/io";
 import { useState } from "react";
 import { BsCalendarEvent } from "react-icons/bs";
 import {AiFillHome} from 'react-icons/ai'
+import CreateTalent from "../createtalent/createTalent";
 const SideNav = ({ isNav, setisNav }) => {
   // const {currentUser} = useSelector((state) => state.user)
   const { pathname } = useLocation();
@@ -17,7 +18,7 @@ const SideNav = ({ isNav, setisNav }) => {
   const dispatch = useDispatch();
   const [isSub, showSub] = useState(false);
 
-  function close() {
+  function onClose() {
     showSub(!isSub);
   }
   function handleLogout() {
@@ -27,6 +28,7 @@ const SideNav = ({ isNav, setisNav }) => {
   }
 
   return (
+    <>
     <div
       onClick={(e) => {
         e.stopPropagation();
@@ -121,10 +123,19 @@ const SideNav = ({ isNav, setisNav }) => {
             <TbCategory2 className="text-[25px]" />
             <span>Create Category</span>
           </Link>
+          <div
+          onClick={onClose}
+            className={`w-full py-3 mb-3 gap-3 bg-[#017297] text-white flex items-center justify-center `}
+          >
+            <GiMusicSpell className="text-[25px]" />
+            <span>Create Talent</span>
+          </div>
           </div>
         </div>
       </div>
     </div>
+    {isSub && <CreateTalent close={onClose}/>}
+    </>
   );
 };
 
