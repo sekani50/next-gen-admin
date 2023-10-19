@@ -88,7 +88,7 @@ export default function CreateCategory({ close }) {
             navigate(-1);
           }}
         >
-          <MdNavigateBefore className="text-[22px]" />
+          <MdNavigateBefore className="text-[24px]" />
         </button>
         <h2 className="font-semibold text-lg sm:text-xl">Add Category</h2>
       </div>
