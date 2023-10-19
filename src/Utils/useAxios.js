@@ -2,7 +2,7 @@ import axios from "axios";
 
 const FetchClient = () => {
   const defaultOptions = {
-    baseURL: 'https://the-next-gen-show.onrender.com/api',
+    baseURL: 'https://the-next-gen-show-15bi.onrender.com/api',
   };
 
   // Create instance

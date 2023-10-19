@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BiLogOutCircle } from "react-icons/bi";
-
+import {TbCategory2} from 'react-icons/tb'
 //import profile from "../../assets/png/hijaby.jpg";
 
 import { useDispatch } from "react-redux";
@@ -69,6 +69,8 @@ const SideNav = ({ isNav, setisNav }) => {
             <span>All Events</span>
           </Link>
 
+        
+              
           <Link
             to="/participants"
             className={` hidden space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4  ${
@@ -108,9 +110,17 @@ const SideNav = ({ isNav, setisNav }) => {
             onClick={() => {
                 navigate("/create-event")
             }}
-            className="w-full py-3 bg-[#017297] text-white flex items-center justify-center">
+            className="w-full py-3 mb-3 bg-[#017297] text-white flex items-center justify-center">
               <span className="mr-3 text-lg">+</span>Create New Event
             </button>
+
+            <Link
+            to="/category"
+            className={`w-full py-3 mb-3 gap-3 bg-[#017297] text-white flex items-center justify-center `}
+          >
+            <TbCategory2 className="text-[25px]" />
+            <span>Create Category</span>
+          </Link>
           </div>
         </div>
       </div>

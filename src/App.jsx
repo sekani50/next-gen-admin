@@ -11,6 +11,7 @@ import {
   Participants,
   Events,
   SingleParticipant,
+  Categories
  
 } from "./Pages";
 
@@ -91,6 +92,14 @@ const App = () => {
             element={
               <RequireAuth link={"/"}>
               <Events />
+              </RequireAuth>
+            }
+          />
+            <Route
+            path="/category"
+            element={
+              <RequireAuth link={"/"}>
+              <Categories />
               </RequireAuth>
             }
           />

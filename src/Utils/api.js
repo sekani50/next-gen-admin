@@ -98,10 +98,43 @@ export const shortlist = (token, eventId, userId) => {
 };
 
 ///events/:eventID/participants/shortlisted
-export function getShortlist(token,eventId) {
+export function getShortlist(token, eventId) {
   return axios.get(`/events/${eventId}/participants/shortlisted`, {
     headers: {
       Authorization: "Bearer " + token,
     },
-  })
+  });
 }
+
+export function getCountries(token) {
+  return axios.get(`/countries`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function createCategory(payload, token) {
+  return axios.post(`/categories/`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function getEvents(token) {
+  return axios.get(`/events`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function getTalents(token) {
+  return axios.get(`/talents/`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+

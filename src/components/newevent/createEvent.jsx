@@ -13,6 +13,7 @@ import {
 } from "../../Utils/api";
 import { useSelector } from "react-redux";
 import { LoaderIcon } from "lucide-react";
+
 const CreateEvent = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -29,14 +30,12 @@ const CreateEvent = () => {
   const [uploadim, setUploadim] = useState(state?.data?.coverImage?.url || "");
   const { token } = useSelector((state) => state.user);
   const [loading, setloading] = useState(false);
-  const [videoloading, setvloading] = useState(false);
-  const [imageloading, setiloading] = useState(false);
-  const [eventCover, setCover] = useState(state?.data?.coverImage || null);
-  const [eventVideo, setVideo] = useState(state?.data?.video || null);
+ // const [videoloading, setvloading] = useState(false);
+ //const [imageloading, setiloading] = useState(false);
+ // const [eventCover, setCover] = useState(state?.data?.coverImage || null);
+ // const [eventVideo, setVideo] = useState(state?.data?.video || null);
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
-
-  //console.log(state?.data)
 
   async function createNewEvent() {
     let eventCover;
@@ -44,42 +43,41 @@ const CreateEvent = () => {
     setloading(true);
     const formdatas = new FormData();
     formdatas.append("image", uploadImage);
-    setiloading(true);
+   // setiloading(true);
     await imageUpload(token, formdatas)
       .then((res) => {
         console.log(res);
         //setIsImage(true);
-        setiloading(false);
+       // setiloading(false);
         eventCover = res.data.data;
         toast.success("Image successfully uploaded");
       })
       .catch((err) => {
         console.log(err);
-        setiloading(false);
+      //  setiloading(false);
         toast.error("Image not uploaded");
       });
 
     const formdata = new FormData();
     formdata.append("video", uploadVideo);
-    setvloading(true);
+   // setvloading(true);
     await videoUpload(token, formdata)
       .then((res) => {
         console.log(res);
         // setIsVideo(true);
-        setvloading(false);
+      //  setvloading(false);
         eventVideo = res.data.data;
         toast.success("Video successfully uploaded");
       })
       .catch((err) => {
         console.log(err);
-        setvloading(false);
+      //  setvloading(false);
         toast.error("Video not uploaded");
       });
 
     const payload = {
       eventName: name,
       description: description,
-      categories: category,
       eventCover,
       eventVideo,
       contestStart: start,
@@ -196,21 +194,7 @@ const CreateEvent = () => {
               className="w-full border py-4 border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
             ></textarea>
           </div>
-          <div className="space-y-4 w-full">
-            <div className="space-y-2">
-              <p>Create Category</p>
-              <p className="text-red-600 text-[11px] sm:text-xs">
-                Use coma as separator (e.g Male, Female, Others)
-              </p>
-            </div>
-            <textarea
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-              }}
-              className="w-full border py-4 border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none resize-none h-[280px] sm:h-[350px] px-4"
-            ></textarea>
-          </div>
+       
 
           <div className="w-full flex items-center justify-center space-x-3">
             <div className="form-group space-y-4 w-full">

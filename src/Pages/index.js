@@ -4,5 +4,15 @@ import Participants from "../components/participants/participants";
 import ShortListed from "../components/shortlisted/shortlisted";
 import CreateEvent from "../components/newevent/createEvent";
 import Events from "../components/events/events";
+import Categories from "../components/categories/categories"
 import SingleParticipant from "../components/singleparticipant/singleParticipant";
-export { Login, Landing, CreateEvent, ShortListed, Participants,Events, SingleParticipant };
+export {
+  Login,
+  Landing,
+  CreateEvent,
+  ShortListed,
+  Participants,
+  Events,
+  SingleParticipant,
+  Categories
+};
