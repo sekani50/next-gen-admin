@@ -146,3 +146,11 @@ export function createTalent(token, payload) {
   })
 }
 
+///events/:id/toggle-active
+export function toggleActiveEvent(token, id) {
+  return axios.patch(`/events/${id}/toggle-active`, id,{
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+}
