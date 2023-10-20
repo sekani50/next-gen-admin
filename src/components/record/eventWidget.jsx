@@ -43,7 +43,7 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
     .then((res) => {
       console.log(res)
       setactiveloading(false)
-
+      window.location.reload()
     })
     .catch((err) => {
       console.log(err)
