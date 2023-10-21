@@ -105,7 +105,7 @@ export default function Categories() {
               )}
               {!loading &&
                 data.length > 0 &&
-                data.map(({ name, talent, country, event, _id }, idx) => {
+                data.map(({ name, talent, country, event,description, _id }, idx) => {
                   return (
                     <div
                       key={idx}
@@ -115,13 +115,13 @@ export default function Categories() {
                         {name}
                       </p>
                       <p className="w-full   whitespace-nowrap text-ellipsis overflow-hidden">
-                        {country}
+                        {country?.name}
                       </p>
                       <p className="w-full   whitespace-nowrap text-ellipsis overflow-hidden">
-                        {event}
+                        {event?.eventName}
                       </p>
                       <p className="w-full  whitespace-nowrap text-ellipsis overflow-hidden">
-                        {talent}
+                        {talent?.name}
                       </p>
                       <div className=" flex items-center space-x-2">
                         <div
@@ -139,6 +139,7 @@ export default function Categories() {
                               talent,
                               country,
                               event,
+                              description
                             });
                           }}
                           className="cursor-pointer"
@@ -148,7 +149,7 @@ export default function Categories() {
                       </div>
                       <Link
                         to={`/category/${_id}`}
-                        className="bg-gray-200  w-fit rounded-sm px-2 sm:px-4 py-2"
+                        className="bg-gray-200 overflow-hidden whitespace-nowrap w-fit rounded-sm px-2 sm:px-4 py-2"
                       >
                         View Detail
                       </Link>

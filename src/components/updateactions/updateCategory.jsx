@@ -12,23 +12,31 @@ import toast from "react-hot-toast";
 import { LoaderIcon } from "react-hot-toast";
 import DropDowns from "../createcategory/dropDowns";
 export default function UpdateCategory({ id, close, data }) {
-  const [category, setCategory] = useState({ name: "", description: "" });
+  const [category, setCategory] = useState({
+    name: data?.name || "",
+    description: data?.description || "",
+  });
   const [loading, setloading] = useState(false);
   const { token } = useSelector((state) => state.user);
-  const [activeCountry, setActiveCountry] = useState("Countries");
-  const [activeCountryId, setActiveCountryId] = useState(data?.country);
+  const [activeCountry, setActiveCountry] = useState(
+    data?.country?.name || "Countries"
+  );
+  const [activeCountryId, setActiveCountryId] = useState(data?.country?._id);
   const [availableDropDowns, getAvailableDropDowns] = useState({
     countries: [],
     events: [],
     talents: [],
   });
 
-  const [activeTalent, setActiveTalent] = useState("Select a talent");
+  const [activeTalent, setActiveTalent] = useState(
+    data?.talent?.name || "Select a talent"
+  );
   const [activeTalentId, setActiveTalentId] = useState(data?.talent);
-  const [activeEvent, setActiveEvent] = useState("Select a event");
+  const [activeEvent, setActiveEvent] = useState(
+    data?.event?.eventName || "Select a event"
+  );
   const [activeEventId, setActiveEventId] = useState(data?.event);
 
-  
   useEffect(() => {
     async function getAllDropDowns() {
       try {
@@ -72,8 +80,9 @@ export default function UpdateCategory({ id, close, data }) {
       .then((res) => {
         console.log(res);
         setloading(false);
-        window.location.reload();
         toast.success("categories updated successfully");
+        window.location.reload();
+      
       })
       .catch((err) => {
         console.log(err);

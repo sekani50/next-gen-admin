@@ -46,11 +46,11 @@ export default function CategoryDetail() {
       
       <div className="grid mb-3 sm:mb-4 grid-cols-6 w-full gap-4 items-center">
         <h3 className="font-semibold">Event:</h3>
-        <p className="col-span-5">{catData?.event}</p>
+        <p className="col-span-5">{catData?.event?.eventName}</p>
       </div>
       <div className="grid  mb-3 sm:mb-4  grid-cols-6 w-full gap-4 items-center">
         <h3 className="font-semibold">Talent:</h3>
-        <p className="col-span-5">{catData?.talent}</p>
+        <p className="col-span-5">{catData?.talent?.name}</p>
       </div>
 
       <div className="w-full flex flex-col gap-4 items-start justify-start">
