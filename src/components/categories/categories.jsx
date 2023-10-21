@@ -14,7 +14,10 @@ export default function Categories() {
   const { token } = useSelector((state) => state.user);
   const [loading, setloading] = useState(false);
   const [isdelete, setDelete] = useState(false);
+  const [page, setPage] = useState(1);
   const [data, setdata] = useState([]);
+  const [currentPage, setcurrentPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
   const [id, setId] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
   const [toUpdate, setToUpdate] = useState(null);
@@ -34,8 +37,16 @@ export default function Categories() {
       await allCategories(token)
         .then((res) => {
           console.log(res);
-          const { data } = res.data.data;
+          const { data, paging } = res.data.data;
           setdata(data);
+          const totalPage = Math.ceil(paging?.totalItems / 10);
+          console.log(totalPage);
+          setcurrentPage(paging?.currentPage);
+          //  const pageNumbers = [...Array(totalPage).keys()].map(
+          //    (page) => page + 1
+          //  );
+          
+          setTotalItems(totalPage);
           setloading(false);
         })
         .catch((err) => {
@@ -158,6 +169,32 @@ export default function Categories() {
                 })}
             </div>
           </div>
+
+          <div className="flex w-full my-3 justify-between items-center">
+          {currentPage > 1 ? (
+            <button
+            onClick={() => {
+              setPage(page -1)
+            }}
+            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+              Previous
+            </button>
+          ) : (
+            <div className="w-1 h-1"></div>
+          )}
+          <p>{`page ${currentPage} of ${totalItems}`}</p>
+          {currentPage === totalItems ? (
+            <div className="w-1 h-1"></div>
+          ) : (
+            <button
+            onClick={() => {
+              setPage(page+1)
+            }}
+             className="bg-[#017297] text-white rounded-lg px-4 py-2">
+              Next
+            </button>
+          )}
+        </div>
         </div>
         {isdelete && (
           <DeleteData close={onClose} id={id} deleteFunction={deleteCategory} />
