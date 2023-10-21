@@ -143,14 +143,74 @@ export function createTalent(token, payload) {
     headers: {
       Authorization: "Bearer " + token,
     },
-  })
+  });
 }
 
 ///events/:id/toggle-active
 export function toggleActiveEvent(token, id) {
-  return axios.patch(`/events/${id}/toggle-active`, id,{
+  return axios.patch(`/events/${id}/toggle-active`, id, {
     headers: {
       Authorization: "Bearer " + token,
     },
-  })
+  });
+}
+
+///categories/
+export function allCategories(token) {
+  return axios.get(`/categories/`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+////categories/:id
+export function deleteCategory(token, id) {
+  return axios.delete(`/categories/${id}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+///categories/:id
+export function categoryDetail(token, id) {
+  return axios.get(`/categories/${id}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+///categories/:id
+export function updateCategory(token, id, payload) {
+  return axios.put(`/categories/${id}`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function allTalent(token) {
+  return axios.get(`/talents/`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function deleteTalent(token, id) {
+  return axios.delete(`/talents/${id}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+export function updateTalent(token, id, payload) {
+  return axios.put(`/talents/${id}`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 }

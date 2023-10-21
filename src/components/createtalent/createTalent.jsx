@@ -6,24 +6,26 @@ import { LoaderIcon } from "lucide-react";
 import { createTalent } from "../../Utils/api";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-export default function CreateTalent({ close }) {
-  const [talent, setTalent] = useState({ name: "", description: "" });
+export default function CreateTalent({ title, close, data }) {
+  const [talent, setTalent] = useState({
+    name: data?.name || "",
+    description: data?.description || "",
+  });
   const { token } = useSelector((state) => state.user);
   const [loading, setloading] = useState(false);
 
   async function submit() {
-
     for (let i in talent) {
-        if (talent[i] === "") {
-          toast.error(`${i} is required`);
-          return;
-        }
+      if (talent[i] === "") {
+        toast.error(`${i} is required`);
+        return;
       }
+    }
     setloading(true);
     await createTalent(token, talent)
       .then((res) => {
         //console.log(res)
-        window.location.reload()
+        window.location.reload();
         setloading(false);
         toast.success("Talent created successfully");
       })
@@ -91,7 +93,7 @@ export default function CreateTalent({ close }) {
           {loading ? (
             <LoaderIcon className="text-[22px] animate-spin" />
           ) : (
-            "Create Talent"
+            title
           )}
         </button>
       </div>

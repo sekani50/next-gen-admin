@@ -82,6 +82,7 @@ export default function CreateCategory({ close }) {
       });
   }
   return (
+    <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
     <div className="bg-white py-4 px-2 sm:px-4 flex  flex-col mx-auto w-full sm:w-[500px] rounded-sm h-fit ">
       <div className="mb-3 sm:mb-4 w-full justify-start flex">
         <button
@@ -156,6 +157,7 @@ export default function CreateCategory({ close }) {
           "Create Category"
         )}
       </button>
+    </div>
     </div>
   );
 }

@@ -11,7 +11,10 @@ import {
   Participants,
   Events,
   SingleParticipant,
-  Categories
+  Categories,
+  CreateCategory,
+  CategoryDetail,
+  Talents
  
 } from "./Pages";
 
@@ -95,11 +98,35 @@ const App = () => {
               </RequireAuth>
             }
           />
+           <Route
+            path="/create-category"
+            element={
+              <RequireAuth link={"/"}>
+              <CreateCategory />
+              </RequireAuth>
+            }
+          />
             <Route
             path="/category"
             element={
               <RequireAuth link={"/"}>
               <Categories />
+              </RequireAuth>
+            }
+          />
+             <Route
+            path="/talents"
+            element={
+              <RequireAuth link={"/"}>
+              <Talents />
+              </RequireAuth>
+            }
+          />
+             <Route
+            path="/category/:id"
+            element={
+              <RequireAuth link={"/"}>
+              <CategoryDetail />
               </RequireAuth>
             }
           />

@@ -130,7 +130,7 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
       {isdelete && (
         <div className="w-full h-full inset-0 z-[50] bg-black bg-opacity-10 fixed ">
           <div className="w-[95%] sm:w-[350px] h-fit m-auto absolute inset-0 bg-white rounded-sm p-6 space-y-10">
-            <p>Do you wisht to continue?</p>
+            <p>Do you wish to continue?</p>
             <div className="w-full items-center justify-between flex">
               <button
               onClick={deletes}

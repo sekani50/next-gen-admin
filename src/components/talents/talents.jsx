@@ -2,36 +2,33 @@ import React, { useEffect, useState } from "react";
 import Container from "../container/container";
 import { Link } from "react-router-dom";
 import empty from "../../assets/png/emptyorder.png";
-import { allCategories, deleteCategory } from "../../Utils/api";
+import { allTalent, deleteTalent } from "../../Utils/api";
 import { useSelector } from "react-redux";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { FiEdit2 } from "react-icons/fi";
 import { BsArrowDownShort } from "react-icons/bs";
 import { LoaderIcon } from "lucide-react";
 import DeleteData from "../deleteaction/deleteData";
-import UpdateCategory from "../updateactions/updateCategory";
-export default function Categories() {
+
+import CreateTalent from "../createtalent/createTalent";
+export default function Talents() {
   const { token } = useSelector((state) => state.user);
   const [loading, setloading] = useState(false);
   const [isdelete, setDelete] = useState(false);
   const [data, setdata] = useState([]);
   const [id, setId] = useState("");
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [toUpdate, setToUpdate] = useState(null);
-  function update(id, data) {
-    openUpdate();
-    setId(id);
-    setToUpdate(data);
-  }
+  const [isOpen, setisOpen] = useState(false);
 
-  function openUpdate() {
-    setIsUpdate(!isUpdate);
+  const [toUpdate, setToUpdate] = useState(null);
+  function update(data) {
+    setToUpdate(data);
+    openTalent();
   }
 
   useEffect(() => {
-    async function allCats() {
+    async function getTalents() {
       setloading(true);
-      await allCategories(token)
+      await allTalent(token)
         .then((res) => {
           console.log(res);
           const { data } = res.data.data;
@@ -43,7 +40,7 @@ export default function Categories() {
           setloading(false);
         });
     }
-    allCats();
+    getTalents();
   }, []);
 
   function onClose() {
@@ -55,35 +52,31 @@ export default function Categories() {
     onClose();
   }
 
+  function openTalent() {
+    setisOpen(!isOpen);
+  }
+
   return (
     <Container>
       <>
         <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
           <div className="w-full mb-3 sm:mb-5 flex justify-end items-end">
-            <Link
+            <button
+              onClick={openTalent}
               className="text-white font-medium text-center px-6 py-3 bg-[#017297] rounded-sm"
-              to="/create-category"
             >
-              Create Category
-            </Link>
+              Create Talent
+            </button>
           </div>
           <div className="dashboard-scroll-style w-full h-fit overflow-y-hidden overflow-x-auto py-2">
-            <div className="min-w-[750px] w-full  rounded-lg shadow-lg py-4">
-              <div className="grid grid-cols-6 mb-3 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
+            <div className="min-w-[400px] w-full  rounded-lg shadow-lg py-4">
+              <div className="grid grid-cols-5 mb-3 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
                 <div className="flex pl-3  items-center space-x-2">
                   <p className="">Name</p>
                   <BsArrowDownShort className="text-[22px]" />
                 </div>
-                <div className="flex  items-center space-x-2">
-                  <p className="">Country</p>
-                  <BsArrowDownShort className="text-[22px]" />
-                </div>
-                <div className="flex  items-center space-x-2">
-                  <p className="">Event</p>
-                  <BsArrowDownShort className="text-[22px]" />
-                </div>
-                <div className="flex items-center  space-x-2">
-                  <p className="">Talent</p>
+                <div className="flex col-span-3  items-center space-x-2">
+                  <p className="">Description</p>
                   <BsArrowDownShort className="text-[22px]" />
                 </div>
 
@@ -105,24 +98,19 @@ export default function Categories() {
               )}
               {!loading &&
                 data.length > 0 &&
-                data.map(({ name, talent, country, event, _id }, idx) => {
+                data.map(({ name, description, _id }, idx) => {
                   return (
                     <div
                       key={idx}
-                      className="grid mb-3 sm:mb-4 grid-cols-6 gap-6 px-4 w-full items-center"
+                      className="grid mb-3 sm:mb-4 grid-cols-5 gap-6 px-4 w-full items-center"
                     >
                       <p className="pl-3 w-full  whitespace-nowrap text-ellipsis overflow-hidden">
                         {name}
                       </p>
-                      <p className="w-full   whitespace-nowrap text-ellipsis overflow-hidden">
-                        {country}
+                      <p className="w-full whitespace-nowrap col-span-3 text-ellipsis overflow-hidden">
+                        {description}
                       </p>
-                      <p className="w-full   whitespace-nowrap text-ellipsis overflow-hidden">
-                        {event}
-                      </p>
-                      <p className="w-full  whitespace-nowrap text-ellipsis overflow-hidden">
-                        {talent}
-                      </p>
+
                       <div className=" flex items-center space-x-2">
                         <div
                           onClick={() => {
@@ -134,11 +122,9 @@ export default function Categories() {
                         </div>
                         <button
                           onClick={() => {
-                            update(_id, {
+                            update({
                               name,
-                              talent,
-                              country,
-                              event,
+                              description,
                             });
                           }}
                           className="cursor-pointer"
@@ -146,12 +132,6 @@ export default function Categories() {
                           <FiEdit2 className="text-[20px]" />
                         </button>
                       </div>
-                      <Link
-                        to={`/category/${_id}`}
-                        className="bg-gray-200  w-fit rounded-sm px-2 sm:px-4 py-2"
-                      >
-                        View Detail
-                      </Link>
                     </div>
                   );
                 })}
@@ -159,10 +139,11 @@ export default function Categories() {
           </div>
         </div>
         {isdelete && (
-          <DeleteData close={onClose} id={id} deleteFunction={deleteCategory} />
+          <DeleteData close={onClose} id={id} deleteFunction={deleteTalent} />
         )}
-        {isUpdate && (
-          <UpdateCategory data={toUpdate} id={id} close={openUpdate} />
+
+        {isOpen && (
+          <CreateTalent close={openTalent} data={toUpdate} title={"Submit"} />
         )}
       </>
     </Container>
