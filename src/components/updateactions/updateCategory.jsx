@@ -99,7 +99,7 @@ export default function UpdateCategory({ id, close, data }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="bg-white py-4 px-2 sm:px-4 flex  flex-col m-auto w-full absolute inset-0 sm:w-[500px] rounded-sm h-fit "
+        className="bg-white py-4 px-2 sm:px-4 flex  flex-col m-auto w-full absolute inset-0 sm:w-[500px] rounded-sm h-[600px] overflow-y-auto "
       >
         <div className="mb-3 sm:mb-4 w-full justify-between items-center flex">
           <div className="flex items-center">
@@ -131,16 +131,21 @@ export default function UpdateCategory({ id, close, data }) {
           <label className="block font-semibold " htmlFor="name">
             Description
           </label>
-          <input
-            className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
-            type="name"
-            placeholder="decscription"
-            name="name"
-            value={category.description}
-            onChange={(e) => {
-              setCategory({ ...category, description: e.target.value });
-            }}
-          />
+          <textarea
+               className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-32 px-4"
+               type="name"
+               placeholder="decscription"
+               name="name"
+               value={category.description}
+               onChange={(e) => {
+                 setCategory({ ...category, description: e.target.value });
+               }}
+             
+          >
+
+
+          </textarea>
+       
         </div>
         <DropDowns
           header={"Events"}

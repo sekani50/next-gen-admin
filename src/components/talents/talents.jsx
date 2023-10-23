@@ -118,7 +118,7 @@ export default function Talents() {
                       <p className="pl-3 w-full  whitespace-nowrap text-ellipsis overflow-hidden">
                         {name}
                       </p>
-                      <p className="w-full whitespace-nowrap col-span-3 text-ellipsis overflow-hidden">
+                      <p className="w-full line-clamp-4 col-span-3">
                         {description}
                       </p>
 

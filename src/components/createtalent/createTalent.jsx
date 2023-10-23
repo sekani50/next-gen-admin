@@ -74,16 +74,20 @@ export default function CreateTalent({ title, close, data }) {
           <label className="block font-semibold " htmlFor="name">
             Description
           </label>
-          <input
-            className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
-            type="name"
-            placeholder="decscription"
-            name="name"
-            value={talent.description}
-            onChange={(e) => {
-              setTalent({ ...talent, description: e.target.value });
-            }}
-          />
+          <textarea
+               className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-32 px-4"
+               type="text"
+               placeholder="decscription"
+               name="name"
+               value={talent.description}
+               onChange={(e) => {
+                 setTalent({ ...talent, description: e.target.value });
+               }}
+           
+          >
+
+          </textarea>
+       
         </div>
 
         <button

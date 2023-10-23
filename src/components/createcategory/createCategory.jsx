@@ -114,16 +114,18 @@ export default function CreateCategory({ close }) {
         <label className="block font-semibold " htmlFor="name">
           Description
         </label>
-        <input
-          className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-11 px-4"
-          type="name"
-          placeholder="decscription"
-          name="name"
-          value={category.description}
-          onChange={(e) => {
-            setCategory({ ...category, description: e.target.value });
-          }}
-        />
+        <textarea
+         className="block form__input border border-gray-200 focus:border-gray-500 hover:border-gray-500 rounded-sm focus:outline-none w-full h-32 px-4"
+         type="name"
+         placeholder="decscription"
+         name="name"
+         value={category.description}
+         onChange={(e) => {
+           setCategory({ ...category, description: e.target.value });
+         }}
+        >
+         
+        </textarea>
       </div>
       <DropDowns
         header={"Events"}
