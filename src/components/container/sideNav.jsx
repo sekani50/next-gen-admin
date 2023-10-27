@@ -49,7 +49,7 @@ const SideNav = ({ isNav, setisNav }) => {
           <div className="my-1 justify-center  flex flex-col w-full ">
             <Link
               to="/dashboard"
-              className={` flex space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4 ${
+              className={` hidden space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4 ${
                 pathname.includes("dashboard")
                   ? "text-black border-r-2 bg-gray-50 border-[#017297]"
                   : "text-gray-400"
@@ -60,9 +60,9 @@ const SideNav = ({ isNav, setisNav }) => {
             </Link>
 
             <Link
-              to="/events"
+              to="/dashboard"
               className={` flex space-x-3 justify-start items-center font-medium sm:px-6 px-4 my-2 py-4  ${
-                pathname.includes("events")
+                pathname.includes("dashboard")
                   ? "text-black border-r-2 bg-gray-50 border-[#017297]"
                   : "text-gray-400"
               } `}

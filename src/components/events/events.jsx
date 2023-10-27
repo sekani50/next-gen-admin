@@ -5,9 +5,10 @@ import { BsArrowDownShort } from "react-icons/bs";
 import { IoFilterSharp } from "react-icons/io5";
 import EventWidget from "../record/eventWidget";
 import { useEffect } from "react";
-import { allEvents } from "../../Utils/api";
+import { allEvents, getStat } from "../../Utils/api";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import Inventories from "../composables/inventories";
 import empty from "../../assets/png/emptyorder.png";
 import { LoaderIcon } from "lucide-react";
 const Events = () => {
@@ -17,6 +18,25 @@ const Events = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [loading, setloading] = useState(false);
   const [currentPage, setcurrentPage] = useState(0);
+  const [stat, setStat] = useState(null)
+  useEffect(() => {
+    async function getStatistics() {
+    
+        await getStat(token)
+        .then((res) => {
+          console.log(res)
+          setStat(res.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    
+        
+    }
+    getStatistics()
+
+
+  },[])
   useEffect(() => {
     async function getAllEvents() {
       setloading(true);
@@ -46,6 +66,14 @@ const Events = () => {
   return (
     <Container>
       <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
+      <div className="grid w-full items-center mb-4 sm:mb-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <Inventories title={"Total Events"} subtitle={`${stat?.events || '0'} events`} />
+          <Inventories
+            title={"Total Participants"}
+            subtitle={`${stat?.participants || '0'} particpants`}
+          />
+          <Inventories title={"Total Categories"} subtitle={`${stat?.categories || '0'} Categories`} />
+        </div>
         <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />

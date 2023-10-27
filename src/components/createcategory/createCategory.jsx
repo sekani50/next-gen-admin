@@ -23,7 +23,6 @@ export default function CreateCategory({ close }) {
     events: [],
     talents: [],
   });
-
   const [activeTalent, setActiveTalent] = useState("Select a talent");
   const [activeTalentId, setActiveTalentId] = useState("");
   const [activeEvent, setActiveEvent] = useState("Select a event");

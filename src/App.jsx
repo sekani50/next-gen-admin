@@ -62,7 +62,7 @@ const App = () => {
             path="/dashboard"
             element={
               <RequireAuth link={"/"}>
-               <Landing />
+             <Events />
               </RequireAuth>
             }
           />
