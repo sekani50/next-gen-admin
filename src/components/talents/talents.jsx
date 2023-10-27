@@ -31,7 +31,7 @@ export default function Talents() {
   useEffect(() => {
     async function getTalents() {
       setloading(true);
-      await allTalent(token)
+      await allTalent(token, page)
         .then((res) => {
           console.log(res);
           const { data , paging} = res.data.data;
@@ -52,7 +52,7 @@ export default function Talents() {
         });
     }
     getTalents();
-  }, []);
+  }, [page]);
 
   function onClose() {
     setDelete(!isdelete);

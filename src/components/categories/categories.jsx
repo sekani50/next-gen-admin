@@ -34,7 +34,7 @@ export default function Categories() {
   useEffect(() => {
     async function allCats() {
       setloading(true);
-      await allCategories(token)
+      await allCategories(token, page)
         .then((res) => {
           console.log(res);
           const { data, paging } = res.data.data;
@@ -55,7 +55,7 @@ export default function Categories() {
         });
     }
     allCats();
-  }, []);
+  }, [page]);
 
   function onClose() {
     setDelete(!isdelete);

@@ -156,8 +156,8 @@ export function toggleActiveEvent(token, id) {
 }
 
 ///categories/
-export function allCategories(token) {
-  return axios.get(`/categories/`, {
+export function allCategories(token, page) {
+  return axios.get(`/categories/?page=${page}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -191,8 +191,8 @@ export function updateCategory(token, id, payload) {
   });
 }
 
-export function allTalent(token) {
-  return axios.get(`/talents/`, {
+export function allTalent(token, page) {
+  return axios.get(`/talents/?page=${page}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
