@@ -4,52 +4,51 @@ import austin from "../../assets/png/austin.png";
 
 import { FiEdit2 } from "react-icons/fi";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { deleteEvent, toggleActiveEvent } from "../../Utils/api";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { LoaderIcon } from "lucide-react";
 const EventWidget = ({ name, image, id, data, isActive }) => {
   const [isdelete, setdelete] = useState(false);
-  const [loading, setloading] = useState(false)
-  const {token} = useSelector((state) => state.user)
+  const [loading, setloading] = useState(false);
+  const { token } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [activeloading, setactiveloading] = useState(false)
+  const [activeloading, setactiveloading] = useState(false);
   function deleteUser() {
     setdelete(!isdelete);
   }
 
   async function deletes() {
-    setloading(true)
-    await deleteEvent(token,id)
-    .then((res) => {
-      console.log(res);
-      setloading(false)
-      setdelete(!isdelete);
-      window.location.reload()
-      toast.success(`${name} is deleted`)
-    })
-    .catch((err) => {
-      setloading(false)
-      console.log(err);
-      setdelete(!isdelete);
-      toast.error(`${name} is not deleted`)
-    })
+    setloading(true);
+    await deleteEvent(token, id)
+      .then((res) => {
+        console.log(res);
+        setloading(false);
+        setdelete(!isdelete);
+        window.location.reload();
+        toast.success(`${name} is deleted`);
+      })
+      .catch((err) => {
+        setloading(false);
+        console.log(err);
+        setdelete(!isdelete);
+        toast.error(`${name} is not deleted`);
+      });
   }
 
   async function toggleActive() {
-    setactiveloading(true)
+    setactiveloading(true);
     await toggleActiveEvent(token, id)
-    .then((res) => {
-      console.log(res)
-      setactiveloading(false)
-      window.location.reload()
-    })
-    .catch((err) => {
-      console.log(err)
-      setactiveloading(false)
-    })
-
+      .then((res) => {
+        console.log(res);
+        setactiveloading(false);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        setactiveloading(false);
+      });
   }
   return (
     <>
@@ -68,7 +67,7 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
             </div>
           </div>
         </div>
-        
+
         <div
           onClick={() => {
             navigate(`/participants/${id}`);
@@ -79,50 +78,55 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
         </div>
         <div
           onClick={() => {
-            navigate(`/shortlisted/${id}`);
+            navigate(`/event/categories/${id}`);
           }}
           className="cursor-pointer text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2"
         >
-          View Shorlisted
+          View Categories
         </div>
         <button
-        disabled={activeloading}
-        onClick={toggleActive}
-        className="cursor-pointer col-span-2">
-        {activeloading && <div
-          className={`flex items-center justify-center w-[100px] h-[33px] ${
-            !isActive
-              ? "text-red-700 bg-red-200 p-1 rounded-sm"
-              : "text-green-700 bg-green-200 rounded-sm p-1"
-          }`}
+          disabled={activeloading}
+          onClick={toggleActive}
+          className="cursor-pointer col-span-2"
         >
-          <LoaderIcon className="text-[25px] animate-spin"/>
-        </div>}
-       {!activeloading && <div
-          className={`flex items-center justify-center w-[100px] h-[33px] ${
-            !isActive
-              ? "text-red-700 bg-red-200 p-1 rounded-sm"
-              : "text-green-700 bg-green-200 rounded-sm p-1"
-          }`}
-        >
-          {isActive ? 'Active' : 'Not Active'}
-        </div>}
+          {activeloading && (
+            <div
+              className={`flex items-center justify-center w-[100px] h-[33px] ${
+                !isActive
+                  ? "text-red-700 bg-red-200 p-1 rounded-sm"
+                  : "text-green-700 bg-green-200 rounded-sm p-1"
+              }`}
+            >
+              <LoaderIcon className="text-[25px] animate-spin" />
+            </div>
+          )}
+          {!activeloading && (
+            <div
+              className={`flex items-center justify-center w-[100px] h-[33px] ${
+                !isActive
+                  ? "text-red-700 bg-red-200 p-1 rounded-sm"
+                  : "text-green-700 bg-green-200 rounded-sm p-1"
+              }`}
+            >
+              {isActive ? "Active" : "Not Active"}
+            </div>
+          )}
         </button>
-       
 
         <div className=" flex items-center space-x-2">
           <div onClick={deleteUser} className="cursor-pointer">
             <MdOutlineDeleteForever className="text-[22px]" />
           </div>
           <div
-          onClick={() => {
-            navigate('/create-event', {
-              state: {
-                data
-              }
-            })
-          }}
-          className="cursor-pointer">
+            onClick={() => {
+              navigate("/create-event", {
+                state: {
+                  data,
+                },
+              });
+            }}
+            className="cursor-pointer"
+          >
             <FiEdit2 className="text-[20px]" />
           </div>
         </div>
@@ -133,9 +137,14 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
             <p>Do you wish to continue?</p>
             <div className="w-full items-center justify-between flex">
               <button
-              onClick={deletes}
-              className="w-[70px] h-[44px] flex items-center justify-center rounded-sm hover:bg-gray-200 text-center">
-              {loading ? <LoaderIcon className="text-[22px] animate-spin"/> : '  Yes'}
+                onClick={deletes}
+                className="w-[70px] h-[44px] flex items-center justify-center rounded-sm hover:bg-gray-200 text-center"
+              >
+                {loading ? (
+                  <LoaderIcon className="text-[22px] animate-spin" />
+                ) : (
+                  "  Yes"
+                )}
               </button>
               <button
                 onClick={() => {

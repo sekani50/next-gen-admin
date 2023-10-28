@@ -79,32 +79,38 @@ export const eventParticipants = (token, eventId, page) => {
   });
 };
 
-////user/participants/:userId
-export const singleParticipant = (token, eventId, userId) => {
-  return axios.get(`/events/${eventId}/participants/${userId}`, {
+////categories/:categoryId/participants/:userId
+export const singleParticipant = (token, catId, userId) => {
+  return axios.get(`/categories/${catId}/participants/${userId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 };
 
-///events/:eventID/shortlist/:participantId
-export const shortlist = (token, eventId, userId) => {
-  return axios.patch(`/events/${eventId}/shortlist/${userId}`, {
+////categories/:categoryId/participants/:userId
+export const shortlist = (token, catId, userId) => {
+  return axios.patch(`/categories/${catId}/shortlist/${userId}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 };
 
-///events/:eventID/participants/shortlisted
-export function getShortlist(token, eventId) {
-  return axios.get(`/events/${eventId}/participants/shortlisted`, {
+////events/:eventID/participants/shortlisted
+export function getShortlist(token, catId) {
+  return axios.get(`/categories/${catId}/participants/shortlisted`, {
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 }
+
+///categories/event/:eventId
+export function getEventCats(eventId) {
+  return axios.get(`/categories/event/${eventId}`)
+}
+
 
 export function getCountries(token) {
   return axios.get(`/countries`, {

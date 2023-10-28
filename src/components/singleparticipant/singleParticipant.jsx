@@ -13,7 +13,7 @@ const SingleParticipant = () => {
   const navigate = useNavigate()
   useEffect(() => {
     async function singles() {
-      await singleParticipant(token, state?.data?.eventId, id)
+      await singleParticipant(token, state?.data?.catId, id)
         .then((res) => {
           console.log(res);
           const { data } = res.data;
@@ -38,10 +38,10 @@ const SingleParticipant = () => {
         </div>
         <div className="space-y-4 sm:w-[630px] flex flex-col items-center w-[95%] mx-auto">
           <div className="text-lg text-center font-semibold">
-            <span className="text-[#017297] ">{state?.data?.event}</span>{" "}
+            
             <span>Participant</span>
             {" "}
-            <span className="text-[#017297] ">{`(as ${data?.category || ''})`}</span>
+           
           </div>
 
           <div className="w-[200px] h-[200px] rounded-md border">
@@ -49,14 +49,14 @@ const SingleParticipant = () => {
           </div>
 
           <div className="space-y-3 flex flex-col">
-          <p>Name: <span>{`${data?.participant?.firstName} ${data?.participant?.lastName}`}</span></p>
-          <p>Stage Name: <span>{data?.participant?.stageName}</span></p>
-          <p>Talent/Skill: <span>{data?.participant?.talent}</span></p>
-          <p>Email: <span>{data?.participant?.email}</span></p>
-          <p>Phone Number: <span>{data?.participant?.phoneNumber}</span></p>
-          <p>Portfolio link: <span>{data?.participant?.portfolio}</span></p>
-          <p>City: <span>{data?.participant?.city}</span></p>
-          <p>Country: <span>{data?.participant?.country}</span></p>
+          <p>Name: <span>{`${data?.participant?.firstName || ""} ${data?.participant?.lastName || ""}`}</span></p>
+          <p>Stage Name: <span>{data?.participant?.stageName || ""}</span></p>
+          <p>Talent/Skill: <span>{data?.participant?.talent || ""}</span></p>
+          <p>Email: <span>{data?.participant?.email || ""}</span></p>
+          <p>Phone Number: <span>{data?.participant?.phoneNumber || ""}</span></p>
+          <p>Portfolio link: <span>{data?.registeredData?.portfolio || ""}</span></p>
+          <p>City: <span>{data?.participant?.city || ""}</span></p>
+          <p>Country: <span>{data?.participant?.country || ""}</span></p>
           </div>
 
 

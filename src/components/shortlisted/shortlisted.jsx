@@ -6,13 +6,15 @@ import { IoFilterSharp } from "react-icons/io5";
 import RecordWidget from '../record/recordWidget';
 import { useEffect } from 'react';
 import { getShortlist } from '../../Utils/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import user from "../../assets/png/customerpic.png"
 import { LoaderIcon } from 'lucide-react';
 import empty from "../../assets/png/emptyorder.png"
+import { MdNavigateBefore } from 'react-icons/md';
 const ShortListed = () => {
   const {id} = useParams()
+  const navigate = useNavigate()
   const {token} = useSelector((state) => state.user)
   const [page, setPage] = useState(0)
   const [totalItems,setTotalItems] = useState(0)
@@ -40,10 +42,22 @@ const ShortListed = () => {
     }
     getList()
   },[])
+
+  console.log(data[0]?.participant)
     return (
         <Container>
                <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
 
+
+
+        <button
+        onClick={() => {
+          navigate(-1)
+        }}
+        className='flex items-center mb-3 sm:mb-6 gap-1'>
+          <MdNavigateBefore className='text-[22px]'/>
+          <span>Back</span>
+        </button>
                <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
@@ -64,15 +78,12 @@ const ShortListed = () => {
 
         <div className="dashboard-scroll-style w-full h-fit overflow-y-hidden overflow-x-auto py-2">
           <div className="min-w-[1000px] w-full  rounded-lg shadow-lg py-4">
-            <div className="grid grid-cols-8 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
+            <div className="grid grid-cols-7 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
               <div className="flex pl-3 col-span-2 items-center space-x-2">
                 <p className="">Participants</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
-              <div className="flex items-center space-x-2">
-                <p className="">Events</p>
-                <BsArrowDownShort className="text-[22px]" />
-              </div>
+            
               <div className="flex col-span-2 items-center space-x-2">
                 <p className="">Category</p>
                 <BsArrowDownShort className="text-[22px]" />
@@ -102,7 +113,7 @@ const ShortListed = () => {
                 </span>
               </div>
             )}
-          {data?.map(({participant,event, status,category },j) => {
+          {data?.map(({participant, status,category },j) => {
             return (
               <div key={j}>
               <RecordWidget
@@ -112,9 +123,8 @@ const ShortListed = () => {
                 image={participant?.profileImage?.url || user}
                 status={status || ''}
                 votes={participant?.votes || '0'}
-                category={category || ''}
-                event={event?.eventName || ''}
-                eventId={event?._id}
+                category={category?.name || ''}
+                catId={category?._id}
               
               />
               </div>

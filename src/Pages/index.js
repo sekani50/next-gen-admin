@@ -4,6 +4,7 @@ import Participants from "../components/participants/participants";
 import ShortListed from "../components/shortlisted/shortlisted";
 import CreateEvent from "../components/newevent/createEvent";
 import Events from "../components/events/events";
+import ViewCategories from "../components/events/viewCategories"
 import Talents from "../components/talents/talents";
 import CategoryDetail from "../components/detail/categoryDetail";
 import Categories from "../components/categories/categories"
@@ -20,5 +21,6 @@ export {
   SingleParticipant,
   Categories,
   CreateCategory,
+  ViewCategories,
   CategoryDetail
 };

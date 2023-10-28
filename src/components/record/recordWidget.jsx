@@ -7,12 +7,11 @@ import axios from "../../Utils/useAxios"
 import { LoaderIcon, toast } from "react-hot-toast";
 const RecordWidget = ({
   id,
-  eventId,
+  catId,
   image,
   status,
   category,
   email,
-  event,
   name,
   votes
 }) => {
@@ -23,7 +22,7 @@ const RecordWidget = ({
 
   async function toggleStatus() {
     setloading(true)
-    await axios.patch(`/events/${eventId}/shortlist/${id}`, null,{
+    await axios.patch(`/categories/${catId}/shortlist/${id}`, null,{
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -61,7 +60,7 @@ const RecordWidget = ({
 
   return (
     <>
-      <div className="grid grid-cols-8  gap-6 border-b w-full items-center py-3 px-4">
+      <div className="grid grid-cols-7  gap-6 border-b w-full items-center py-3 px-4">
         <div className="col-span-2 gap-8 w-full items-center grid grid-cols-6">
           <div className="w-[40px] h-[40px] rounded-full">
             <img
@@ -79,7 +78,7 @@ const RecordWidget = ({
             </div>
           </div>
         </div>
-        <div>{event}</div>
+     
         <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2">
           {category}
         </div>
@@ -113,8 +112,8 @@ const RecordWidget = ({
             navigate(`/event/participant/${id}`, {
               state: {
                 data: {
-                  event,
-                  eventId,
+                
+                  catId,
                 },
               },
             });

@@ -7,6 +7,7 @@ import {
   Login,
   Landing,
   CreateEvent,
+  ViewCategories,
   ShortListed,
   Participants,
   Events,
@@ -83,10 +84,18 @@ const App = () => {
             }
           />
            <Route
-            path="/shortlisted/:id"
+            path="/category/shortlisted/:id"
             element={
               <RequireAuth link={"/"}>
              <ShortListed />
+              </RequireAuth>
+            }
+          />
+            <Route
+            path="/event/categories/:id"
+            element={
+              <RequireAuth link={"/"}>
+             <ViewCategories />
               </RequireAuth>
             }
           />
