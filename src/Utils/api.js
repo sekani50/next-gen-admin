@@ -106,11 +106,18 @@ export function getShortlist(token, catId, stage) {
   });
 }
 
-///categories/event/:eventId
-export function getEventCats(eventId) {
-  return axios.get(`/categories/event/${eventId}`)
+export function changeStatus(catId, id, token, payload) {
+  return axios.patch(`/categories/${catId}/shortlist/${id}`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 }
 
+///categories/event/:eventId
+export function getEventCats(eventId) {
+  return axios.get(`/categories/event/${eventId}`);
+}
 
 export function getCountries(token) {
   return axios.get(`/countries`, {
@@ -215,6 +222,24 @@ export function deleteTalent(token, id) {
 
 export function updateTalent(token, id, payload) {
   return axios.put(`/talents/${id}`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+///settings/active-stage
+export function setActiveStage(payload, token) {
+  return axios.put(`/settings/active-stage`, payload, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+}
+
+///categories/:categoryID/participants
+export function categoryParticipants(token, id) {
+  return axios.get(`/categories/${id}/participants`, {
     headers: {
       Authorization: "Bearer " + token,
     },

@@ -23,7 +23,6 @@ export default function ViewCategories() {
       setloading(true);
       await getEventCats(id)
         .then((res) => {
-          console.log(res);
           const { data, paging } = res.data.data;
           setdata(data);
           const totalPage = Math.ceil(paging?.totalItems / 10);
@@ -58,9 +57,13 @@ export default function ViewCategories() {
             <span>Back</span>
           </div>
 
+          <div className="space-y-1 mb-2">
+            <h2 className="text-base sm:text-xl font-semibold">Categories</h2>
+          </div>
+
           <div className="dashboard-scroll-style w-full h-fit overflow-y-hidden overflow-x-auto py-2">
             <div className="min-w-[750px] w-full  rounded-lg shadow-lg py-4">
-              <div className="grid grid-cols-5 mb-3 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
+              <div className="grid grid-cols-6 mb-3 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
                 <div className="flex pl-3  items-center space-x-2">
                   <p className="">Name</p>
                   <BsArrowDownShort className="text-[22px]" />

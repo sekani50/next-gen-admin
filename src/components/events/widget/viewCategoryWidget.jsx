@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import SetStage from "../actioncard/setStage";
 
 export default function ViewCategoryWidget({
@@ -20,7 +21,7 @@ export default function ViewCategoryWidget({
     <>
       <div
         key={idx}
-        className="grid mb-3 sm:mb-4 grid-cols-5 gap-6 px-4 w-full items-center"
+        className="grid mb-3 sm:mb-4 grid-cols-6 gap-6 px-4 w-full items-center"
       >
         <p className="pl-3 w-full  whitespace-nowrap text-ellipsis overflow-hidden">
           {name}
@@ -34,7 +35,10 @@ export default function ViewCategoryWidget({
         <p className="w-full  whitespace-nowrap text-ellipsis overflow-hidden">
           {talent?.name}
         </p>
-
+        <Link
+        
+        to={`/participants/${id}`}
+        >View Participants</Link>
         <button
           onClick={onclose}
           className="bg-gray-200 overflow-hidden whitespace-nowrap w-fit rounded-sm px-2 sm:px-4 py-2"

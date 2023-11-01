@@ -1,51 +1,70 @@
-import React, { useState } from 'react';
-import Container from '../container/container';
+import React, { useState } from "react";
+import Container from "../container/container";
 import { IoMdSearch } from "react-icons/io";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoFilterSharp } from "react-icons/io5";
-import user from "../../assets/png/customerpic.png"
-import RecordWidget from '../record/recordWidget';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { eventParticipants } from '../../Utils/api';
-import { useSelector } from 'react-redux';
-import { LoaderIcon } from 'lucide-react';
-import empty from "../../assets/png/emptyorder.png"
+import user from "../../assets/png/customerpic.png";
+import RecordWidget from "../record/recordWidget";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { MdNavigateBefore } from "react-icons/md";
+import { categoryParticipants } from "../../Utils/api";
+import { useSelector } from "react-redux";
+import { LoaderIcon } from "lucide-react";
+import empty from "../../assets/png/emptyorder.png";
+import toast from "react-hot-toast";
 const Participants = () => {
-  const {id} = useParams()
-  const {token} = useSelector((state) => state.user)
-  const [page, setPage] = useState(0)
-  const [totalItems,setTotalItems] = useState(0)
-  const [loading, setloading] = useState(false)
-  const [data, setdata] = useState([])
-const [currentPage, setcurrentPage] = useState(0)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.user);
+  const [page, setPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setloading] = useState(false);
+  const [data, setdata] = useState([]);
+  const [currentPage, setcurrentPage] = useState(0);
   useEffect(() => {
     async function regParticipant() {
-      setloading(true)
-      await eventParticipants(token, id, page)
-      .then((res) => {
-        console.log(res.data.data)
-        setloading(false);
-        const { data} = res.data;
+      setloading(true);
+      await categoryParticipants(token, id)
+        .then((res) => {
+          console.log(res.data.data);
+          setloading(false);
+          toast.success(res.data?.message)
+          const { data } = res.data;
 
-        setdata(data.data);
-        const totalPage = Math.ceil(data?.paging?.totalItems / 10);
-        console.log(totalPage);
-        setcurrentPage(data?.paging?.currentPage);
-        
-        setTotalItems(totalPage);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+          setdata(data.data);
+          const totalPage = Math.ceil(data?.paging?.totalItems / 10);
+          console.log(totalPage);
+          setcurrentPage(data?.paging?.currentPage);
+
+          setTotalItems(totalPage);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    regParticipant()
-  },[page])
-    return (
-        <Container>
-               <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
+    regParticipant();
+  }, [page]);
+  return (
+    <Container>
+      <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
+        <div
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="cursor-pointer mb-3 sm:mb-6 flex items-center gap-1"
+        >
+          <MdNavigateBefore className="text-[22px]" />
+          <span>Back</span>
+        </div>
 
-               <div className="w-full hidden mb-2 justify-between items-center ">
+        <div className="space-y-1  mb-2">
+          <h2 className="text-base sm:text-xl font-semibold">
+            Participants
+          </h2>
+          <p>Click the status button to change active stage for a user</p>
+        </div>
+        <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>
@@ -65,21 +84,22 @@ const [currentPage, setcurrentPage] = useState(0)
 
         <div className="dashboard-scroll-style w-full h-fit overflow-y-hidden overflow-x-auto py-2">
           <div className="min-w-[1000px] w-full  rounded-lg shadow-lg py-4">
-            <div className="grid grid-cols-8 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
+            <div className="grid grid-cols-9 bg-gray-200 text-gray-500 gap-6 rounded-t-lg border-b w-full items-center py-4 px-4">
               <div className="flex pl-3 col-span-2 items-center space-x-2">
                 <p className="">Participants</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
-              <div className="flex items-center space-x-2">
-                <p className="">Events</p>
-                <BsArrowDownShort className="text-[22px]" />
-              </div>
+
               <div className="flex col-span-2 items-center space-x-2">
                 <p className="">Category</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
               <div className="flex items-center space-x-2">
                 <p className="">Votes</p>
+                <BsArrowDownShort className="text-[22px]" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <p className="">Stage</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
               <div className="flex items-center space-x-2">
@@ -103,34 +123,34 @@ const [currentPage, setcurrentPage] = useState(0)
                 </span>
               </div>
             )}
-           {data?.map(({participant,event, status,category },j) => {
-            return (
-              <div key={j}>
-              <RecordWidget
-              id={participant?._id}
-              email={participant?.email}
-              name={`${participant?.firstName} ${participant?.lastName}`}
-              image={participant?.profileImage?.url || user}
-              status={status || ''}
-              votes={participant?.votes}
-              category={category || ''}
-              event={event?.eventName || ''}
-              eventId={event?._id}
-              />
-              </div>
-            )
-           })}
-
-           
+            {data?.map(({ participant, stage, status, category }, j) => {
+              return (
+                <div key={j}>
+                  <RecordWidget
+                    id={participant?._id}
+                    email={participant?.email}
+                    name={`${participant?.firstName} ${participant?.lastName}`}
+                    image={participant?.profileImage?.url || user}
+                    status={status || ""}
+                    stage={stage || ""}
+                    votes={participant?.votes}
+                    category={category?.name || ""}
+                   
+                    catId={category?._id}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="flex w-full my-3 justify-between items-center">
           {currentPage > 1 ? (
             <button
-            onClick={() => {
-              setPage(page -1)
-            }}
-            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2"
+            >
               Previous
             </button>
           ) : (
@@ -141,18 +161,18 @@ const [currentPage, setcurrentPage] = useState(0)
             <div className="w-1 h-1"></div>
           ) : (
             <button
-            onClick={() => {
-              setPage(page+1)
-            }}
-            className="bg-[#017297] text-white rounded-lg px-4 py-2">
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="bg-[#017297] text-white rounded-lg px-4 py-2"
+            >
               Next
             </button>
           )}
         </div>
-               </div>
-            
-        </Container>
-    )
-}
+      </div>
+    </Container>
+  );
+};
 
-export default Participants
+export default Participants;

@@ -8,11 +8,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoIosPeople, IoIosListBox } from "react-icons/io";
 import { useState } from "react";
+import {FaLevelUpAlt} from "react-icons/fa"
 import { BsCalendarEvent } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
-import CreateTalent from "../createtalent/createTalent";
+import CurrentStage from "../stage/setCurrentStage";
 const SideNav = ({ isNav, setisNav }) => {
-  // const {currentUser} = useSelector((state) => state.user)
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -147,16 +147,16 @@ const SideNav = ({ isNav, setisNav }) => {
               </Link>
               <div
                 onClick={onClose}
-                className={`w-full hidden py-3 mb-3 gap-3 bg-[#017297] text-white items-center justify-center `}
+                className={`w-full flex py-3 mb-3 gap-3 bg-[#017297] text-white items-center justify-center `}
               >
-                <GiMusicSpell className="text-[25px]" />
-                <span>Create Talent</span>
+                <FaLevelUpAlt className="text-[25px]" />
+                <span>Change Active Stage</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {isSub && <CreateTalent close={onClose} />}
+      {isSub && <CurrentStage close={onClose} />}
     </>
   );
 };

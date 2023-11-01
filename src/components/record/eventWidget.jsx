@@ -12,6 +12,7 @@ import { LoaderIcon } from "lucide-react";
 const EventWidget = ({ name, image, id, data, isActive }) => {
   const [isdelete, setdelete] = useState(false);
   const [loading, setloading] = useState(false);
+  const [active, setactive] = useState(isActive)
   const { token } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [activeloading, setactiveloading] = useState(false);
@@ -23,8 +24,10 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
     setloading(true);
     await deleteEvent(token, id)
       .then((res) => {
-        console.log(res);
+       
+        const {data} = res?.data
         setloading(false);
+        setactive(data?.isActive)
         setdelete(!isdelete);
         window.location.reload();
         toast.success(`${name} is deleted`);
@@ -41,9 +44,11 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
     setactiveloading(true);
     await toggleActiveEvent(token, id)
       .then((res) => {
-        console.log(res);
+       
+        const {data} = res?.data
+        setactive(data?.isActive)
         setactiveloading(false);
-        window.location.reload();
+      //  window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +89,7 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
           {activeloading && (
             <div
               className={`flex items-center justify-center w-[100px] h-[33px] ${
-                !isActive
+                !active
                   ? "text-red-700 bg-red-200 p-1 rounded-sm"
                   : "text-green-700 bg-green-200 rounded-sm p-1"
               }`}
@@ -95,12 +100,12 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
           {!activeloading && (
             <div
               className={`flex items-center justify-center w-[100px] h-[33px] ${
-                !isActive
+                !active
                   ? "text-red-700 bg-red-200 p-1 rounded-sm"
                   : "text-green-700 bg-green-200 rounded-sm p-1"
               }`}
             >
-              {isActive ? "Active" : "Not Active"}
+              {active ? "Active" : "Not Active"}
             </div>
           )}
         </button>
