@@ -51,12 +51,12 @@ const SingleParticipant = () => {
           <div className="space-y-3 flex flex-col">
           <p>Name: <span>{`${data?.participant?.firstName || ""} ${data?.participant?.lastName || ""}`}</span></p>
           <p>Stage Name: <span>{data?.participant?.stageName || ""}</span></p>
-          <p>Talent/Skill: <span>{data?.participant?.talent || ""}</span></p>
+          <p>Talent/Skill: <span>{data?.participant?.talent?.name || ""}</span></p>
           <p>Email: <span>{data?.participant?.email || ""}</span></p>
           <p>Phone Number: <span>{data?.participant?.phoneNumber || ""}</span></p>
           <p>Portfolio link: <span>{data?.registeredData?.portfolio || ""}</span></p>
           <p>City: <span>{data?.participant?.city || ""}</span></p>
-          <p>Country: <span>{data?.participant?.country || ""}</span></p>
+          <p>Country: <span>{data?.participant?.country?.name || ""}</span></p>
           </div>
 
 

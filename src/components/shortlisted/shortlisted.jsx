@@ -1,64 +1,71 @@
-import React,{useState} from 'react';
-import Container from '../container/container';
+import React, { useState } from "react";
+import Container from "../container/container";
 import { IoMdSearch } from "react-icons/io";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoFilterSharp } from "react-icons/io5";
-import RecordWidget from '../record/recordWidget';
-import { useEffect } from 'react';
-import { getShortlist } from '../../Utils/api';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import user from "../../assets/png/customerpic.png"
-import { LoaderIcon } from 'lucide-react';
-import empty from "../../assets/png/emptyorder.png"
-import { MdNavigateBefore } from 'react-icons/md';
+import RecordWidget from "../record/recordWidget";
+import { useEffect } from "react";
+import { getShortlist } from "../../Utils/api";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import user from "../../assets/png/customerpic.png";
+import { LoaderIcon } from "lucide-react";
+import empty from "../../assets/png/emptyorder.png";
+import { MdNavigateBefore } from "react-icons/md";
+import toast from "react-hot-toast";
 const ShortListed = () => {
-  const {id} = useParams()
-  const navigate = useNavigate()
-  const {token} = useSelector((state) => state.user)
-  const [page, setPage] = useState(0)
-  const [totalItems,setTotalItems] = useState(0)
-  const [loading, setloading] = useState(false)
-  const [data, setdata] = useState([])
-  const [currentPage, setcurrentPage] = useState(0)
+  const { id } = useParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.user);
+  const [page, setPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setloading] = useState(false);
+  const [data, setdata] = useState([]);
+  const [currentPage, setcurrentPage] = useState(0);
   useEffect(() => {
     async function getList() {
-      setloading(true)
-        await getShortlist(token, id)
+      setloading(true);
+      await getShortlist(token, id, state?.stage)
         .then((res) => {
-          console.log(res)
-          const { data} = res.data;
+          console.log(res);
+          const { data } = res.data;
+          toast.success(res?.data?.message);
           setloading(false);
           setdata(data.data);
           const totalPage = Math.ceil(data?.paging?.totalItems / 10);
           console.log(totalPage);
           setcurrentPage(data?.paging?.currentPage);
-          
+
           setTotalItems(totalPage);
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
-    getList()
-  },[])
+    getList();
+  }, []);
 
-  console.log(data[0]?.participant)
-    return (
-        <Container>
-               <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
-
-
-
+ 
+  return (
+    <Container>
+      <div className="w-full mx-auto px-2  sm:px-6 py-4 h-fit">
         <button
-        onClick={() => {
-          navigate(-1)
-        }}
-        className='flex items-center mb-3 sm:mb-6 gap-1'>
-          <MdNavigateBefore className='text-[22px]'/>
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="flex items-center mb-3 sm:mb-6 gap-1"
+        >
+          <MdNavigateBefore className="text-[22px]" />
           <span>Back</span>
         </button>
-               <div className="w-full hidden mb-2 justify-between items-center ">
+        <div className="space-y-1">
+          <h2 className="text-base sm:text-xl font-semibold">
+            Shortlisted Participants
+          </h2>
+          <p>Shortlisted participants in stage {`${state?.stage}`} for {`${state?.name}`} category</p>
+        </div>
+        <div className="w-full hidden mb-2 justify-between items-center ">
           <div className="border text-gray-500 px-2  flex items-center justify-center space-x-2 border-gray-500 rounded-sm h-11">
             <IoFilterSharp className="text-[22px]" />
             <div>Filter</div>
@@ -83,7 +90,7 @@ const ShortListed = () => {
                 <p className="">Participants</p>
                 <BsArrowDownShort className="text-[22px]" />
               </div>
-            
+
               <div className="flex col-span-2 items-center space-x-2">
                 <p className="">Category</p>
                 <BsArrowDownShort className="text-[22px]" />
@@ -113,34 +120,32 @@ const ShortListed = () => {
                 </span>
               </div>
             )}
-          {data?.map(({participant, status,category },j) => {
-            return (
-              <div key={j}>
-              <RecordWidget
-                id={participant?._id}
-                email={participant?.email}
-                name={`${participant?.firstName} ${participant?.lastName}`}
-                image={participant?.profileImage?.url || user}
-                status={status || ''}
-                votes={participant?.votes || '0'}
-                category={category?.name || ''}
-                catId={category?._id}
-              
-              />
-              </div>
-            )
-           })}
-
-           
+            {data?.map(({ participant, status, category }, j) => {
+              return (
+                <div key={j}>
+                  <RecordWidget
+                    id={participant?._id}
+                    email={participant?.email}
+                    name={`${participant?.firstName} ${participant?.lastName}`}
+                    image={participant?.profileImage?.url || user}
+                    status={status || ""}
+                    votes={participant?.votes || "0"}
+                    category={category?.name || ""}
+                    catId={category?._id}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="flex w-full my-3 justify-between items-center">
-        {currentPage > 1 ? (
+          {currentPage > 1 ? (
             <button
-            onClick={() => {
-              setPage(page -1)
-            }}
-            className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2">
+              onClick={() => {
+                setPage(page - 1);
+              }}
+              className="border border-[#017297] text-[#017297] rounded-lg px-4 py-2"
+            >
               Previous
             </button>
           ) : (
@@ -151,18 +156,18 @@ const ShortListed = () => {
             <div className="w-1 h-1"></div>
           ) : (
             <button
-            onClick={() => {
-              setPage(page+1)
-            }}
-            className="bg-[#017297] text-white rounded-lg px-4 py-2">
+              onClick={() => {
+                setPage(page + 1);
+              }}
+              className="bg-[#017297] text-white rounded-lg px-4 py-2"
+            >
               Next
             </button>
           )}
         </div>
-               </div>
-            
-        </Container>
-    )
-}
+      </div>
+    </Container>
+  );
+};
 
-export default ShortListed
+export default ShortListed;

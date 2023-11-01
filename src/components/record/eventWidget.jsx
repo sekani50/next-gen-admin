@@ -52,7 +52,7 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
   }
   return (
     <>
-      <div className="grid grid-cols-10 gap-6 border-b w-full items-center py-3 px-4">
+      <div className="grid grid-cols-8 gap-6 border-b w-full items-center py-3 px-4">
         <div className="col-span-2 gap-12 w-full items-center grid grid-cols-6">
           <div className="w-[40px] h-[40px] rounded-full">
             <img
@@ -61,21 +61,13 @@ const EventWidget = ({ name, image, id, data, isActive }) => {
               className="w-full h-full rounded-full"
             />
           </div>
-          <div className="col-span-5 ">
-            <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden">
+          <div className="col-span-5 w-full">
+            <div className="text-ellipsis whitespace-nowrap w-[100px] overflow-hidden">
               {name}
             </div>
           </div>
         </div>
 
-        <div
-          onClick={() => {
-            navigate(`/participants/${id}`);
-          }}
-          className="cursor-pointer text-ellipsis whitespace-nowrap w-full overflow-hidden col-span-2"
-        >
-          view reg. participants
-        </div>
         <div
           onClick={() => {
             navigate(`/event/categories/${id}`);

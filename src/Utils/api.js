@@ -98,8 +98,8 @@ export const shortlist = (token, catId, userId) => {
 };
 
 ////events/:eventID/participants/shortlisted
-export function getShortlist(token, catId) {
-  return axios.get(`/categories/${catId}/participants/shortlisted`, {
+export function getShortlist(token, catId, stage) {
+  return axios.get(`/categories/${catId}/participants/shortlisted/${stage}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
