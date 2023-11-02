@@ -30,10 +30,6 @@ const CreateEvent = () => {
   const [uploadim, setUploadim] = useState(state?.data?.coverImage?.url || "");
   const { token } = useSelector((state) => state.user);
   const [loading, setloading] = useState(false);
- // const [videoloading, setvloading] = useState(false);
- //const [imageloading, setiloading] = useState(false);
- // const [eventCover, setCover] = useState(state?.data?.coverImage || null);
- // const [eventVideo, setVideo] = useState(state?.data?.video || null);
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
 
@@ -47,25 +43,22 @@ const CreateEvent = () => {
     await imageUpload(token, formdatas)
       .then((res) => {
         console.log(res);
-        //setIsImage(true);
-       // setiloading(false);
+    
         eventCover = res.data.data;
         toast.success("Image successfully uploaded");
       })
       .catch((err) => {
         console.log(err);
-      //  setiloading(false);
         toast.error("Image not uploaded");
       });
 
     const formdata = new FormData();
     formdata.append("video", uploadVideo);
    // setvloading(true);
-    await videoUpload(token, formdata)
+ {uploadVideo &&   await videoUpload(token, formdata)
       .then((res) => {
         console.log(res);
-        // setIsVideo(true);
-      //  setvloading(false);
+      
         eventVideo = res.data.data;
         toast.success("Video successfully uploaded");
       })
@@ -73,28 +66,37 @@ const CreateEvent = () => {
         console.log(err);
       //  setvloading(false);
         toast.error("Video not uploaded");
-      });
+      });}
+
+    const validateData = {
+      eventName: name,
+      description: description,
+      eventCover,
+      contestStart: start,
+      contestEnd: end,
+    };
+
+    for (let i in validateData) {
+      if (validateData[i] === "") {
+        toast(`${i} is required`);
+        return;
+      }
+    }
 
     const payload = {
       eventName: name,
       description: description,
       eventCover,
       eventVideo,
-      contestStart: start,
-      contestEnd: end,
+      eventStart: start,
+      eventEnd: end,
     };
 
-    for (let i in payload) {
-      if (payload[i] === "") {
-        toast(`${i} is required`);
-        return;
-      }
-    }
 
     if (state?.data?.id) {
       {
         eventCover &&
-          eventVideo &&
+      
           (await updateEvent(token, state?.data?.id, payload)
             .then((res) => {
               console.log(res);
@@ -122,7 +124,7 @@ const CreateEvent = () => {
     } else {
       {
         eventCover &&
-          eventVideo &&
+     
           (await createEvent(token, payload)
             .then((res) => {
               console.log(res);
